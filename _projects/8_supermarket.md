@@ -2,7 +2,7 @@
 layout: page
 title: Supermarket POS & Inventory Management System
 description: Modular desktop retail automation system using JavaFX, MySQL, JDBC, and test-driven development with JUnit and Mockito.
-importance: 1
+importance: 4
 category: software engineering & systems
 related_publications: false
 ---
@@ -11,7 +11,7 @@ related_publications: false
 
 Retail point-of-sale (POS) and inventory systems demand strict transactional integrity, high responsiveness, and zero tolerance for data anomalies such as phantom inventory or billing discrepancies. 
 
-This project is a full-featured desktop retail management suite developed in **Java** and **JavaFX**, following strict **Model-View-Controller (MVC)** architectural design patterns. It integrates a relational **MySQL** database via **JDBC** and emphasizes rigorous unit and integration testing via **JUnit** and **Mockito**.
+This project is a desktop retail management suite developed in **Java** and **JavaFX**, following **Model-View-Controller (MVC)** architectural patterns. It integrates a relational **MySQL** database via **JDBC** and emphasizes unit and integration testing via **JUnit** and **Mockito**.
 
 ---
 
@@ -43,7 +43,7 @@ This project is a full-featured desktop retail management suite developed in **J
 ```
 
 #### 1. MVC Separation & Modular Design
-- **View Layer**: Reactive JavaFX scenes designed with FXML and custom modern stylesheets, providing cashier billing screens, stock manager dashboards, and reporting views.
+- **View Layer**: JavaFX scenes designed with FXML and custom stylesheets, providing cashier billing screens, stock manager dashboards, and reporting views.
 - **Controller Layer**: Decoupled handlers managing UI input sanitization, background worker tasks (`Task`/`Service`), and event coordination.
 - **Model / DAO Layer**: Strongly typed POJOs with clean Data Access Object (DAO) interfaces executing prepared statements and managing relational mappings.
 
@@ -58,5 +58,5 @@ This project is a full-featured desktop retail management suite developed in **J
 - **Sales Analytics**: Aggregated daily, weekly, and monthly revenue metrics with visual summary charts.
 
 #### 4. Automated Testing & Verification
-- Authored extensive unit tests with **JUnit** targeting complex business logic in tax calculations, discount combinations, and inventory validation.
-- Utilized **Mockito** to mock external DAO dependencies and database connections, enabling isolated, deterministic testing of the service layer with high test coverage.
+- Authored unit tests with **JUnit** targeting business logic in tax calculations, discount combinations, and inventory validation.
+- Utilized **Mockito** to mock external DAO dependencies and database connections, enabling isolated, deterministic testing of the service layer.

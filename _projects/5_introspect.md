@@ -2,8 +2,8 @@
 layout: page
 title: Introspect - ML Observability & Model Evaluation Platform
 description: Framework-agnostic observability and evaluation platform for autoregressive and diffusion models with OpenTelemetry.
-importance: 2
-category: machine learning & ai
+importance: 1
+category: software engineering & systems
 related_publications: false
 ---
 

@@ -2,8 +2,8 @@
 layout: page
 title: Decentralized Swarm Learning with Scikit-Learn
 description: Extending HPE Swarm Learning to classical estimators for privacy-preserving decentralized model training.
-importance: 3
-category: machine learning & ai
+importance: 4
+category: research projects
 related_publications: false
 ---
 

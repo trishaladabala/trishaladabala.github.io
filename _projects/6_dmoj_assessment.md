@@ -9,7 +9,7 @@ related_publications: false
 
 ### Project Context
 
-Automated coding assessment platforms must balance two competing challenges: delivering seamless developer experiences during programming contests while upholding rigorous academic and evaluation integrity against sophisticated plagiarism and cheating techniques.
+Automated coding assessment platforms must balance two competing challenges: delivering seamless developer experiences during programming contests while upholding rigorous evaluation integrity against sophisticated plagiarism and cheating techniques.
 
 During my software development internship at **Hewlett Packard Enterprise (HPE)**, I designed and integrated core evaluation infrastructure into the **DMOJ** (Don Mills Online Judge) programming contest platform.
 

@@ -1,11 +1,11 @@
 {
   "basics": {
     "name": "Trishal Adabala",
-    "label": "Undergraduate Researcher & Software Developer",
+    "label": "Undergraduate Student Researcher",
     "image": "",
     "email": "adabalatrishal@gmail.com",
     "phone": "+91-8500155577",
-    "summary": "B.Tech student in Computer Science and Engineering with a specialization in AI/ML and a minor in Mathematics at Shiv Nadar University (GPA: 9.14/10). Experienced in decentralized machine learning (HPE Swarm Learning), ML observability, deep learning, and full-stack software development. Aspiring researcher actively seeking PhD and Master's opportunities in Computer Science and Artificial Intelligence.",
+    "summary": "B.Tech student in Computer Science and Engineering with a specialization in AI/ML and a minor in Mathematics at Shiv Nadar University (GPA: 9.14/10). Undergraduate researcher working on continuous-latent language flows, high-dimensional vector quantization, and quantitative connectomics. Experienced in decentralized machine learning (HPE Swarm Learning) and systems engineering. Actively seeking PhD and Master's opportunities in Computer Science and Artificial Intelligence.",
     "location": {
       "city": "Greater Noida",
       "region": "Delhi NCR",
@@ -53,7 +53,7 @@
       "studyType": "Intermediate",
       "startDate": "2021-06-01",
       "endDate": "2023-05-31",
-      "score": "Percentage: 93.8%"
+      "score": "PCM Percentage: 93.8%"
     },
     {
       "institution": "Secondary School (Class X)",
@@ -106,22 +106,90 @@
   ],
   "projects": [
     {
-      "name": "Cartoon-to-Realistic Image Translation using CycleGAN",
-      "description": "Deep learning image translation pipeline in PyTorch for domain translation from stylized cartoons to photorealistic images.",
+      "name": "Continuous Language Flows & Trajectory Retraction (ELF)",
+      "description": "Continuous-latent language flow matching, geometric manifold retraction, and causal local time clocks.",
       "highlights": [
-        "Prepared and curated unpaired datasets, designed the generator and discriminator training pipeline, and generated realistic images from cartoon inputs.",
-        "Utilized cycle-consistency loss, adversarial loss, and identity loss for high-fidelity cross-domain mapping."
+        "Discovered continuous flows outperform discrete masked diffusion (MDLM) by 13.5x in perplexity (13.49 vs 181.86 dedup-PPL) while running 3.2x faster at 4 steps.",
+        "Formulated Encoder-Cycle Projection (ECP), an idempotent manifold retraction operator (Pi = E o D) cutting 16-step ODE perplexity by 10.7% and boosting MAUVE coherence by +53.9%.",
+        "Mathematically proved the Wave-Step Resolution Theorem (N_eff = N/W) establishing the lower bound N >= 2W steps to avoid unigram entropy collapse.",
+        "Developed Clock-Modulated Encoder (CME) masking, reducing contextual noise leakage by >60% and enabling 100.0% hierarchical key-value copy accuracy.",
+        "Implemented Progressive Halving trajectory distillation, achieving 22.13 chrF translation in a single 2.2 ms step (5.1x over 1-step teacher)."
       ],
-      "keywords": ["PyTorch", "CycleGAN", "Deep Learning", "Computer Vision"]
+      "keywords": [
+        "Continuous Flow Matching",
+        "Normalizing Flows",
+        "Manifold Retraction",
+        "Trajectory Distillation",
+        "PyTorch",
+        "Hugging Face"
+      ]
+    },
+    {
+      "name": "QuantPPI: Data-Oblivious Vector Quantization for Protein Embeddings",
+      "description": "High-dimensional geometry and signal processing framework for 1280-D protein language model embeddings (ESM-2).",
+      "highlights": [
+        "Identified extreme coordinate anisotropy (PR/D = 0.0012, >83% energy in <= 4 rogue coordinates) causing a 2.58x orthogonal noise-inflation penalty.",
+        "Formulated and proved Support-Orthogonal Bleed Elimination and Analytical Bussgang De-Attenuation theorems, restoring unbiased inner products with zero data calibration.",
+        "Engineered multi-radix Lloyd-Max codecs (168 B - 488 B) surpassing trained FAISS OPQ (0.9993 vs 0.9968 Recall@20@30; 0.9600 vs 0.9180 Top-1 Recall) with 2x lower memory and zero training time.",
+        "Implemented high-performance Asymmetric Distance Computation in C with ARM NEON SIMD vectorization (0.35 ms/query, 234k vectors/sec)."
+      ],
+      "keywords": [
+        "High-Dimensional Geometry",
+        "Vector Quantization",
+        "Protein Language Models",
+        "Bussgang Theorem",
+        "C",
+        "ARM NEON SIMD"
+      ]
+    },
+    {
+      "name": "VectorWing: Drosophila Central Complex Connectomics",
+      "description": "Out-of-core connectomic graph analysis and dynamical circuit modeling using the FlyWire FAFB v783 dataset (16.8M synapses).",
+      "highlights": [
+        "Built an out-of-core graph analytics pipeline processing 16.8M synapses under a strict <380 MB RAM ceiling on commodity hardware.",
+        "Identified that standard edge-swapping configuration models collapse physical reciprocity by 4.61x, conflating topological loops with chemical affinity.",
+        "Formulated degree-stratified conditional permutation null models, isolating a true +20.6% to +31.8% GABA-GABA excess in the Ellipsoid Body (Z > +13, p = 0.0005).",
+        "Discovered a 2.53x to 5.92x heterotypic ACh <-> GABA reciprocity inversion in the Fan-Shaped Body with 100% strict directional chemical polarity (554 dyads, p < 0.001).",
+        "Implemented a 16-column continuous rate model demonstrating subtractive feedback attenuation that caps columnar firing at 30.6 Hz and preserves heading bump tuning."
+      ],
+      "keywords": [
+        "Computational Connectomics",
+        "Graph Theory",
+        "Statistical Null Models",
+        "MCMC",
+        "Dynamical Rate Models",
+        "Apache Arrow",
+        "Python"
+      ]
     },
     {
       "name": "Introspect - ML Observability Platform",
       "description": "ML observability platform featuring a framework-agnostic model adapter for comprehensive model evaluation.",
       "highlights": [
         "Enabled end-to-end evaluation of autoregressive and diffusion language models with telemetry, consistency scoring, and semantic drift analysis.",
-        "Instrumented telemetry via OpenTelemetry with a FastAPI and SQLite backend."
+        "Instrumented telemetry via OpenTelemetry with an asynchronous FastAPI and SQLite backend."
       ],
-      "keywords": ["Python", "FastAPI", "OpenTelemetry", "SQLite", "ML Observability"]
+      "keywords": [
+        "Python",
+        "FastAPI",
+        "OpenTelemetry",
+        "SQLite",
+        "ML Observability"
+      ]
+    },
+    {
+      "name": "Cartoon-to-Realistic Image Translation using CycleGAN",
+      "description": "Deep learning image translation pipeline in PyTorch for domain translation from stylized cartoons to photorealistic images.",
+      "highlights": [
+        "Prepared and curated unpaired datasets, designed the generator and discriminator training pipeline, and generated realistic images from cartoon inputs.",
+        "Utilized cycle-consistency loss, adversarial loss, and identity loss for high-fidelity cross-domain mapping."
+      ],
+      "keywords": [
+        "PyTorch",
+        "CycleGAN",
+        "Deep Learning",
+        "Computer Vision"
+      ]
     },
     {
       "name": "Supermarket Automation System",
@@ -130,25 +198,74 @@
         "Implemented real-time billing, inventory tracking, customer loyalty management, and sales reporting using MySQL and JDBC.",
         "Authored comprehensive unit tests with JUnit and Mockito to ensure robust business logic."
       ],
-      "keywords": ["Java", "JavaFX", "MySQL", "JDBC", "JUnit", "Mockito", "MVC"]
+      "keywords": [
+        "Java",
+        "JavaFX",
+        "MySQL",
+        "JDBC",
+        "JUnit",
+        "Mockito",
+        "MVC"
+      ]
     }
   ],
   "skills": [
     {
-      "name": "Programming Languages",
-      "keywords": ["Python", "Java", "C++", "C", "SQL", "Bash"]
+      "name": "Mathematics & Theory",
+      "keywords": [
+        "High-Dimensional Probability",
+        "Signal Quantization (Lloyd-Max, Bussgang's Theorem)",
+        "Spectral Anisotropy",
+        "Differential Equations & Dynamical Systems",
+        "Graph Theory",
+        "Non-Parametric Statistics (Bootstrap, MCMC, FDR Control)"
+      ]
     },
     {
-      "name": "Frameworks & Libraries",
-      "keywords": ["PyTorch", "Scikit-Learn", "FastAPI", "Django", "OpenCV", "NumPy"]
+      "name": "Machine Learning & Frameworks",
+      "keywords": [
+        "PyTorch",
+        "Hugging Face Transformers",
+        "Continuous Flow Matching",
+        "Diffusion Models",
+        "Scikit-Learn",
+        "FAISS",
+        "NumPy",
+        "SciPy"
+      ]
     },
     {
-      "name": "Databases",
-      "keywords": ["SQLite", "MySQL", "MariaDB"]
+      "name": "Languages & Systems",
+      "keywords": [
+        "Python",
+        "C (ARM NEON SIMD)",
+        "Java",
+        "C++",
+        "SQL",
+        "Bash",
+        "Apache Arrow / PyArrow IPC"
+      ]
     },
     {
-      "name": "Tools & Infrastructure",
-      "keywords": ["Git", "GitHub", "Docker", "Linux", "GitHub Actions", "OpenTelemetry"]
+      "name": "Computational Biology",
+      "keywords": [
+        "Protein Language Models (ESM-2, ProtT5)",
+        "Structural Bioinformatics",
+        "FlyWire Connectome Analysis"
+      ]
+    },
+    {
+      "name": "Developer Tools & Infrastructure",
+      "keywords": [
+        "Git",
+        "GitHub",
+        "Docker",
+        "Linux",
+        "LaTeX",
+        "GitHub Actions",
+        "OpenTelemetry",
+        "Cairo"
+      ]
     }
   ],
   "awards": [
@@ -156,7 +273,7 @@
       "title": "Dean's List Award for Academic Excellence",
       "date": "2026-05-01",
       "awarder": "Shiv Nadar Institute of Eminence",
-      "summary": "Awarded for outstanding academic performance (Monsoon 2023, Spring 2024, Monsoon 2025, Spring 2026)."
+      "summary": "Awarded for outstanding academic performance across multiple semesters (Monsoon 2023, Spring 2024, Monsoon 2025, Spring 2026)."
     }
   ]
 }
