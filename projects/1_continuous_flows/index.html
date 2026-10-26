@@ -1,0 +1,588 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> Continuous Language Flows: Manifold Geometry &amp; Causal Clocks | Trishal Adabala </title> <meta name="author" content="Trishal Adabala"> <meta name="description" content="Investigating manifold drift retraction (ECP), causal wave-clock schedules, and trajectory distillation in continuous-latent language flow matching."> <meta name="keywords" content="Trishal Adabala, Machine Learning, Deep Learning, Swarm Learning, AI, Computer Science, Shiv Nadar University, Portfolio, PhD Applicant"> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%8E%93&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=3116ba77db9ee1581d05bb3e86fbf7f1"> <link rel="canonical" href="https://trishaladabala.github.io/projects/1_continuous_flows/"> <script src="/assets/js/theme.js?v=5286c3e4c334d0ecb8fc0c40ff4fa7ec"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> <link rel="stylesheet" href="/assets/al_email_protect/css/email-protect.css"> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> Trishal Adabala </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item active"> <a class="nav-link" href="/">about <span class="sr-only">(current)</span> </a> </li> <li class="nav-item active"> <a class="nav-link" href="/projects/">projects <span class="sr-only">(current)</span> </a> </li> <li class="nav-item "> <a class="nav-link" href="/cv/">CV </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">Continuous Language Flows: Manifold Geometry &amp; Causal Clocks</h1> <p class="post-description">Investigating manifold drift retraction (ECP), causal wave-clock schedules, and trajectory distillation in continuous-latent language flow matching.</p> </header> <article> <h3 id="overview--motivation">Overview &amp; Motivation</h3> <p>Standard autoregressive language models (such as GPT architectures) generate text token-by-token. For a document of length $L$, this requires $L$ sequential forward passes, creating a fundamental inference latency bottleneck.</p> <p><strong>Continuous-latent language flow matching</strong> offers an alternative non-autoregressive paradigm: text generation is cast as integrating an Ordinary Differential Equation (ODE) that transports probability mass from an isotropic Gaussian prior in latent embedding space ($\mathbb{R}^d$) to structured contextual text embeddings in $N$ parallel steps ($N \ll L$).</p> <p>In this independent student research project, I conducted an empirical and theoretical investigation of continuous flow matching across <strong>105M (<code class="language-plaintext highlighter-rouge">ELF-B</code>), 342M (<code class="language-plaintext highlighter-rouge">ELF-M</code>), and 652M (<code class="language-plaintext highlighter-rouge">ELF-L</code>)</strong> models, addressing three critical bottlenecks in the continuous diffusion literature:</p> <ol> <li> <strong>Evaluation confounds</strong> arising from post-EOS repetition mode collapse and Jensen’s inequality misinterpretations.</li> <li> <strong>Off-manifold trajectory drift</strong> during intermediate ODE integration steps.</li> <li> <strong>Contextual noise leakage</strong> in asynchronous token clock schedules.</li> </ol> <hr> <h3 id="key-research-contributions">Key Research Contributions</h3> <h4 id="1-deconstructing-the-evaluation-anomaly--establishing-the-pplh515-pareto-frontier">1. Deconstructing the Evaluation Anomaly &amp; Establishing the $PPL@H=5.15$ Pareto Frontier</h4> <ul> <li> <strong>The Literature Dilemma</strong>: Prior work reported an apparent perplexity minimum under aggressive stochastic back-noising ($\gamma = 3.0, \text{PPL} = 5.68$), attributing discrepancies with corpus-level perplexity to Jensen’s inequality.</li> <li> <strong>Mathematical Clarification</strong>: Because $e^u$ is strictly convex, Jensen’s inequality proves $\frac{1}{M}\sum e^{\bar{L}_m} \ge \exp\left(\frac{1}{M}\sum \bar{L}_m\right)$. Arithmetic sample averaging <em>inflates</em> perplexity; it cannot introduce downward bias.</li> <li> <strong>Underlying Mechanism</strong>: Auditing raw token trajectories revealed that high back-noising caused the denoiser to collapse into repetitive 4-gram loops ($\text{rep-4} = 78.5\%$) in unmasked post-EOS padding. Because autoregressive evaluation models easily predict repeating patterns, sequence loss collapsed ($\bar{L}_m \to 1.31$) while true unigram entropy tanked ($H \approx 3.1 \ll 5.15\text{ nats}$).</li> <li> <strong>Calibrated Benchmarking</strong>: Formulated an 82-run grid evaluating models on the true Pareto frontier at natural unigram entropy ($H = 5.15\text{ nats}$). Under calibrated conditions at $N=4$ steps, continuous flow matching outperforms 130M discrete masked diffusion (<code class="language-plaintext highlighter-rouge">MDLM</code>) by <strong>$13.5\times$ in perplexity</strong> ($13.49$ vs. $181.86$ dedup-PPL) while running <strong>$3.2\times$ faster</strong> in wall-clock time ($4.2\text{ s}$ vs. $13.7\text{ s}$).</li> </ul> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                      +---------------------------------------+
+                      |       Input Prompt / Source Text      |
+                      +---------------------------------------+
+                                          |
+                                          v
+                      +---------------------------------------+
+                      |       Frozen T5-Small Encoder         |
+                      +---------------------------------------+
+                                          |
+                                          v
+                           Initial Latents z_0 ~ N(0, I)
+                                          |
+                                          v
+   +==================== Iterative Probability Flow ODE ====================+
+   |                                                                        |
+   |   Local Clocks:  tau_i(t) = clamp(W * t - w_i, 0, 1)                   |
+   |   CME Mask:      M_ij = 1[ q(tau_j) &gt;= q(tau_i) ]                      |
+   |                                                                        |
+   |   [ Denoiser Network v_theta(z_t, tau, cond) ]                         |
+   |                     |                                                  |
+   |                     v                                                  |
+   |   Self-Cond Channel: Retraction Operator Pi = E o Decoder(z_t)         |
+   |                     |                                                  |
+   |                     v                                                  |
+   |   Euler / Heun Step: z_{t + dt} = z_t + dt * v_theta                   |
+   |                                                                        |
+   +========================================================================+
+                                          |
+                                          v
+                      +---------------------------------------+
+                      |     Frozen Projection Decoder         |
+                      +---------------------------------------+
+                                          |
+                                          v
+                      +---------------------------------------+
+                      |   Final Tokens (Argmax + EOS Mask)    |
+                      +---------------------------------------+
+</code></pre></div></div> <h4 id="2-manifold-geometry--encoder-cycle-projection-ecp">2. Manifold Geometry &amp; Encoder-Cycle Projection (ECP)</h4> <ul> <li> <strong>Measuring Off-Manifold Drift</strong>: Defined the encodability gap $g_t$ between the continuous velocity prediction $\hat{x}<em>1(z_t)$ and the discrete text manifold $\mathcal{M} = {E(w)}$: \(g_t = \frac{1}{D}\|\hat{x}_1(z_t) - E(\arg\max D_{\text{dec}}(\hat{x}_1(z_t)))\|_2^2\) Intermediate trajectories stray <strong>$40\times\text{–}120\times$ off-manifold</strong> ($g_t \in [0.14, 0.59]$ vs. text floor $g</em>{\text{ref}} = 0.0045$).</li> <li> <strong>Idempotent Retraction Operator</strong>: Formulated $\Pi = E \circ \arg\max D_{\text{dec}}$. Since $D(E(w)) = w$, the operator is idempotent ($\Pi \circ \Pi = \Pi$), projecting continuous latents back onto the valid text representation manifold.</li> <li> <strong>Noise-Preserving Formulation (ECP-Z)</strong>: Derived an update that avoids corrupting the implied velocity direction: \(z_{t'} \leftarrow z_{t'} + \lambda t'(\Pi(\hat{x}) - \hat{x})\)</li> <li> <strong>Empirical Results</strong>: Reduced 16-step ODE perplexity by <strong>10.7%</strong> ($98.61 \to 84.25$) and improved <strong>MAUVE distributional coherence by +53.9%</strong> ($0.445 \to 0.860$). A matched-norm Gaussian perturbation control confirmed that gains stem strictly from discrete manifold retraction.</li> </ul> <h4 id="3-the-wave-step-resolution-theorem--causal-clocks">3. The Wave-Step Resolution Theorem &amp; Causal Clocks</h4> <ul> <li> <strong>The Wave-Step Resolution Theorem</strong>: For a sequence partitioned into $W$ waves with piecewise-linear local times $\tau_i(t) = \text{clamp}(W \cdot t - w_i, 0, 1)$, the effective number of integration steps per active wave interval is: \(N_{\text{eff}} = \frac{N}{W}\) <em>Significance</em>: When $N &lt; W$, $N_{\text{eff}} &lt; 1$, causing local time to jump from noise ($\tau_i = 0$) to text ($\tau_i = 1$) in a single step and inducing unigram entropy collapse ($3.97 \to 0.65\text{ nats}$). Stable integration strictly requires <strong>$N \ge 2W$ global integration steps</strong>.</li> <li> <strong>Clock-Modulated Encoder (CME) Masks</strong>: Linear probing revealed that bidirectional encoders leak uncommitted noisy tokens to clean committed tokens ($43.2\%$ neighbor decodability at $\delta = -1$). CME masking enforces $M_{ij} = \mathbb{1}[q(\tau_j) \ge q(\tau_i)]$, reducing neighbor leakage by $&gt;60\%$ and cutting early-commit token flip rates from $20.5\%$ to $0.44\%$.</li> <li> <strong>Task Verification</strong>: Quantized wave clocks ($W=8, K=4$) improved hierarchical key-value copy accuracy from $16.8\%$ to <strong>$100.0\%$</strong> and sequence sorting monotonicity from $10.9\%$ to <strong>$62.5\%$</strong>.</li> </ul> <h4 id="4-few-step-trajectory-distillation">4. Few-Step Trajectory Distillation</h4> <ul> <li>Established strictly held-out WMT14 De-En splits (<code class="language-plaintext highlighter-rouge">DISTILL</code> $N=2000$, <code class="language-plaintext highlighter-rouge">SELECT</code> $N=500$, <code class="language-plaintext highlighter-rouge">TEST</code> $N=500$).</li> <li> <strong>Progressive Halving</strong>: Achieved <strong>$22.13\text{ chrF}$ in a single $2.2\text{ ms}$ step</strong>—a <strong>$5.1\times$ leap</strong> over the 1-step teacher ($4.32\text{ chrF}$) and outperforming the 32-step teacher baseline ($20.60\text{ chrF}$).</li> <li> <strong>Consistency Distillation</strong>: Reached $0.38\text{ BLEU}$ at 4 steps ($2.6\times$ higher than baseline).</li> </ul> <hr> <h3 id="summary-of-empirical-benchmarks">Summary of Empirical Benchmarks</h3> <table> <thead> <tr> <th style="text-align: left">Metric / Task</th> <th style="text-align: center">Baseline</th> <th style="text-align: center">Flow Matching + Our Methods</th> <th style="text-align: center">Impact</th> </tr> </thead> <tbody> <tr> <td style="text-align: left"><strong>Few-Step Perplexity ($N=4$)</strong></td> <td style="text-align: center">$181.86$ dedup-PPL (MDLM-130M)</td> <td style="text-align: center"> <strong>$13.49$ dedup-PPL</strong> (ELF-B)</td> <td style="text-align: center"><strong>$13.5\times$ better perplexity</strong></td> </tr> <tr> <td style="text-align: left"><strong>Generation Latency ($N=4$)</strong></td> <td style="text-align: center">$13.7\text{ s}$ (MDLM-130M)</td> <td style="text-align: center"> <strong>$4.2\text{ s}$</strong> (ELF-B)</td> <td style="text-align: center"><strong>$3.2\times$ wall-clock speedup</strong></td> </tr> <tr> <td style="text-align: left"><strong>16-Step MAUVE Coherence</strong></td> <td style="text-align: center">$0.445$ (ODE-16)</td> <td style="text-align: center"> <strong>$0.860$</strong> (ECP-ODE-16)</td> <td style="text-align: center"><strong>+53.9% distributional coherence</strong></td> </tr> <tr> <td style="text-align: left"><strong>16-Step ODE Perplexity</strong></td> <td style="text-align: center">$98.61$</td> <td style="text-align: center"><strong>$84.25$</strong></td> <td style="text-align: center"><strong>10.7% perplexity reduction</strong></td> </tr> <tr> <td style="text-align: left"><strong>Hierarchical KV Copy Accuracy</strong></td> <td style="text-align: center">$16.8\%$ (Global time)</td> <td style="text-align: center"> <strong>$100.0\%$</strong> (Wave Clocks $W=8, K=4$)</td> <td style="text-align: center"><strong>$5.95\times$ accuracy gain</strong></td> </tr> <tr> <td style="text-align: left"><strong>1-Step Distillation Quality</strong></td> <td style="text-align: center">$4.32\text{ chrF}$ / $57.3\text{ ms}$</td> <td style="text-align: center"><strong>$22.13\text{ chrF}$ / $2.2\text{ ms}$</strong></td> <td style="text-align: center"><strong>$5.1\times$ quality leap, $26\times$ faster</strong></td> </tr> </tbody> </table> <hr> <h3 id="technical-stack--rigor">Technical Stack &amp; Rigor</h3> <ul> <li> <strong>Frameworks</strong>: PyTorch, Hugging Face Transformers (T5, GPT-2), SafeTensors, SciPy, NumPy.</li> <li> <strong>Verification</strong>: Built an automated suite of 19 CPU unit and stress tests (testing boundary interpolations, water-filling clock algorithms, and operator shapes).</li> <li> <strong>Manuscript</strong>: Authored a 23-page research manuscript targeting top-tier conferences (NeurIPS/ICML), including complete mathematical proofs, vector figures, and audit ledgers across &gt;250 evaluation runs.</li> </ul> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Trishal Adabala. © Trishal Adabala. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Last updated: October 26, 2026. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-about",
+          title: "about",
+          description: "",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/";
+          },
+        },{id: "nav-projects",
+          title: "projects",
+          description: "Research projects in continuous language flows, high-dimensional vector quantization, and computational connectomics, alongside software engineering systems.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/projects/";
+          },
+        },{id: "nav-cv",
+          title: "CV",
+          description: "Curriculum Vitae of Trishal Adabala highlighting education, research &amp; industry experience, technical projects, honors, and coursework.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/cv/";
+          },
+        },{id: "post-a-post-with-marimo-snippets",
+        
+          title: "a post with marimo snippets",
+        
+        description: "running Python in the browser with marimo",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/marimo/";
+          
+        },
+      },{id: "post-a-post-with-plotly-js",
+        
+          title: "a post with plotly.js",
+        
+        description: "this is what included plotly.js code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/plotly/";
+          
+        },
+      },{id: "post-a-post-with-image-galleries",
+        
+          title: "a post with image galleries",
+        
+        description: "this is what included image galleries could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/photo-gallery/";
+          
+        },
+      },{id: "post-google-gemini-updates-flash-1-5-gemma-2-and-project-astra",
+        
+          title: 'Google Gemini updates: Flash 1.5, Gemma 2 and Project Astra <svg width="1.2rem" height="1.2rem" top=".5rem" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M17 13.5v6H5v-12h6m3-3h6v6m0-6-9 9" class="icon_svg-stroke" stroke="#999" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg>',
+        
+        description: "We’re sharing updates across our Gemini family of models and a glimpse of Project Astra, our vision for the future of AI assistants.",
+        section: "Posts",
+        handler: () => {
+          
+            window.open("https://blog.google/technology/ai/google-gemini-update-flash-ai-assistant-io-2024/", "_blank");
+          
+        },
+      },{id: "post-a-post-with-tabs",
+        
+          title: "a post with tabs",
+        
+        description: "this is what included tabs in a post could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/tabs/";
+          
+        },
+      },{id: "post-a-post-with-typograms",
+        
+          title: "a post with typograms",
+        
+        description: "this is what included typograms code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/typograms/";
+          
+        },
+      },{id: "post-a-post-that-can-be-cited",
+        
+          title: "a post that can be cited",
+        
+        description: "this is what a post that can be cited looks like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/post-citation/";
+          
+        },
+      },{id: "post-a-post-with-pseudo-code",
+        
+          title: "a post with pseudo code",
+        
+        description: "this is what included pseudo code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/pseudocode/";
+          
+        },
+      },{id: "post-a-post-with-code-diff",
+        
+          title: "a post with code diff",
+        
+        description: "this is how you can display code diffs",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/code-diff/";
+          
+        },
+      },{id: "post-a-post-with-advanced-image-components",
+        
+          title: "a post with advanced image components",
+        
+        description: "this is what advanced image components could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/advanced-images/";
+          
+        },
+      },{id: "post-a-post-with-vega-lite",
+        
+          title: "a post with vega lite",
+        
+        description: "this is what included vega lite code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/vega-lite/";
+          
+        },
+      },{id: "post-a-post-with-geojson",
+        
+          title: "a post with geojson",
+        
+        description: "this is what included geojson code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/geojson-map/";
+          
+        },
+      },{id: "post-a-post-with-echarts",
+        
+          title: "a post with echarts",
+        
+        description: "this is what included echarts code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/echarts/";
+          
+        },
+      },{id: "post-a-post-with-chart-js",
+        
+          title: "a post with chart.js",
+        
+        description: "this is what included chart.js code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/chartjs/";
+          
+        },
+      },{id: "post-a-post-with-tikzjax",
+        
+          title: "a post with TikZJax",
+        
+        description: "this is what included TikZ code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/tikzjax/";
+          
+        },
+      },{id: "post-a-post-with-bibliography",
+        
+          title: "a post with bibliography",
+        
+        description: "an example of a blog post with bibliography",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/post-bibliography/";
+          
+        },
+      },{id: "post-a-post-with-jupyter-notebook",
+        
+          title: "a post with jupyter notebook",
+        
+        description: "an example of a blog post with jupyter notebook",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/jupyter-notebook/";
+          
+        },
+      },{id: "post-a-post-with-custom-blockquotes",
+        
+          title: "a post with custom blockquotes",
+        
+        description: "an example of a blog post with custom blockquotes",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/custom-blockquotes/";
+          
+        },
+      },{id: "post-a-post-with-table-of-contents-on-a-sidebar",
+        
+          title: "a post with table of contents on a sidebar",
+        
+        description: "an example of a blog post with table of contents on a sidebar",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/sidebar-table-of-contents/";
+          
+        },
+      },{id: "post-a-post-with-audios",
+        
+          title: "a post with audios",
+        
+        description: "this is what included audios could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/audios/";
+          
+        },
+      },{id: "post-a-post-with-videos",
+        
+          title: "a post with videos",
+        
+        description: "this is what included videos could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/videos/";
+          
+        },
+      },{id: "post-displaying-beautiful-interactive-tables",
+        
+          title: "displaying beautiful interactive tables",
+        
+        description: "an example of how to use interactive tables in al-folio",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/tables/";
+          
+        },
+      },{id: "post-a-post-with-table-of-contents",
+        
+          title: "a post with table of contents",
+        
+        description: "an example of a blog post with table of contents",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/table-of-contents/";
+          
+        },
+      },{id: "post-a-post-with-giscus-comments",
+        
+          title: "a post with giscus comments",
+        
+        description: "an example of a blog post with giscus comments",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2022/giscus-comments/";
+          
+        },
+      },{id: "post-یک-نوشتهٔ-راست-چین",
+        
+          title: "یک نوشتهٔ راست‌چین",
+        
+        description: "نمونه‌ای از پشتیبانی زبان‌های راست‌چین",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2022/rtl/";
+          
+        },
+      },{id: "post-displaying-external-posts-on-your-al-folio-blog",
+        
+          title: 'Displaying External Posts on Your al-folio Blog <svg width="1.2rem" height="1.2rem" top=".5rem" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M17 13.5v6H5v-12h6m3-3h6v6m0-6-9 9" class="icon_svg-stroke" stroke="#999" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg>',
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.open("https://medium.com/@al-folio/displaying-external-posts-on-your-al-folio-blog-b60a1d241a0a?source=rss-17feae71c3c4------2", "_blank");
+          
+        },
+      },{id: "post-a-post-with-redirect",
+        
+          title: "a post with redirect",
+        
+        description: "you can also redirect to assets like pdf",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/assets/pdf/example_pdf.pdf";
+          
+        },
+      },{id: "post-a-post-with-diagrams",
+        
+          title: "a post with diagrams",
+        
+        description: "an example of a blog post with diagrams",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2021/diagrams/";
+          
+        },
+      },{id: "post-a-distill-style-blog-post",
+        
+          title: "a distill-style blog post",
+        
+        description: "an example of a distill-style blog post and main elements",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2021/distill/";
+          
+        },
+      },{id: "post-a-post-with-twitter",
+        
+          title: "a post with twitter",
+        
+        description: "an example of a blog post with twitter",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2020/twitter/";
+          
+        },
+      },{id: "post-a-post-with-disqus-comments",
+        
+          title: "a post with disqus comments",
+        
+        description: "an example of a blog post with disqus comments",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2015/disqus-comments/";
+          
+        },
+      },{id: "post-a-post-with-math",
+        
+          title: "a post with math",
+        
+        description: "an example of a blog post with some math",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2015/math/";
+          
+        },
+      },{id: "post-a-post-with-code",
+        
+          title: "a post with code",
+        
+        description: "an example of a blog post with some code",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2015/code/";
+          
+        },
+      },{id: "post-a-post-with-images",
+        
+          title: "a post with images",
+        
+        description: "this is what included images could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2015/images/";
+          
+        },
+      },{id: "post-a-post-with-formatting-and-links",
+        
+          title: "a post with formatting and links",
+        
+        description: "march &amp; april, looking forward to summer",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2015/formatting-and-links/";
+          
+        },
+      },{id: "books-the-godfather",
+          title: 'The Godfather',
+          description: "",
+          section: "Books",handler: () => {
+              window.location.href = "/books/the_godfather/";
+            },},{id: "news-elected-to-the-pulse-organizing-committee-to-lead-competitive-programming-contests-and-conduct-technical-workshops-on-algorithms-and-data-structures",
+          title: 'Elected to the PULSE organizing committee to lead competitive programming contests and conduct...',
+          description: "",
+          section: "News",},{id: "news-started-as-a-software-development-intern-cpp-3-at-hewlett-packard-enterprise-hpe-working-on-extending-hpe-swarm-learning-to-scikit-learn-for-decentralized-privacy-preserving-training",
+          title: 'Started as a Software Development Intern (CPP-3) at Hewlett Packard Enterprise (HPE), working...',
+          description: "",
+          section: "News",},{id: "news-awarded-the-dean-s-list-at-shiv-nadar-university-for-outstanding-academic-performance-in-spring-2026-cumulative-gpa-9-14-10-0",
+          title: 'Awarded the Dean’s List at Shiv Nadar University for outstanding academic performance in...',
+          description: "",
+          section: "News",},{id: "projects-continuous-language-flows-manifold-geometry-amp-causal-clocks",
+          title: 'Continuous Language Flows: Manifold Geometry &amp;amp; Causal Clocks',
+          description: "Investigating manifold drift retraction (ECP), causal wave-clock schedules, and trajectory distillation in continuous-latent language flow matching.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/1_continuous_flows/";
+            },},{id: "projects-quantppi-data-oblivious-vector-quantization-for-protein-embeddings",
+          title: 'QuantPPI: Data-Oblivious Vector Quantization for Protein Embeddings',
+          description: "Beating trained FAISS OPQ on 1280-D protein language model embeddings with high-dimensional geometry and zero calibration data.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/2_quantppi/";
+            },},{id: "projects-vectorwing-quantitative-connectomics-in-the-drosophila-central-complex",
+          title: 'VectorWing: Quantitative Connectomics in the Drosophila Central Complex',
+          description: "Out-of-core connectomic graph analysis of 16.8M synapses, identifying topological edge-swap artifacts and a reciprocity inversion in the insect steering system.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/3_connectomics/";
+            },},{id: "projects-decentralized-swarm-learning-with-scikit-learn",
+          title: 'Decentralized Swarm Learning with Scikit-Learn',
+          description: "Extending HPE Swarm Learning to classical estimators for privacy-preserving decentralized model training.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/4_swarm_learning/";
+            },},{id: "projects-introspect-ml-observability-amp-model-evaluation-platform",
+          title: 'Introspect - ML Observability &amp;amp; Model Evaluation Platform',
+          description: "Framework-agnostic observability and evaluation platform for autoregressive and diffusion models with OpenTelemetry.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/5_introspect/";
+            },},{id: "projects-dolos-plagiarism-detection-amp-assessment-engine",
+          title: 'Dolos Plagiarism Detection &amp;amp; Assessment Engine',
+          description: "Integration of AST-based Dolos plagiarism detection into DMOJ with anti-cheating penalty mechanics.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/6_dmoj_assessment/";
+            },},{id: "projects-cartoon-to-realistic-image-translation-using-cyclegan",
+          title: 'Cartoon-to-Realistic Image Translation using CycleGAN',
+          description: "Unpaired image-to-image translation pipeline in PyTorch for photorealistic synthesis from artistic cartoons.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/7_cyclegan/";
+            },},{id: "projects-supermarket-pos-amp-inventory-management-system",
+          title: 'Supermarket POS &amp;amp; Inventory Management System',
+          description: "Modular desktop retail automation system using JavaFX, MySQL, JDBC, and test-driven development with JUnit and Mockito.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/8_supermarket/";
+            },},{id: "teachings-data-science-fundamentals",
+          title: 'Data Science Fundamentals',
+          description: "This course covers the foundational aspects of data science, including data collection, cleaning, analysis, and visualization. Students will learn practical skills for working with real-world datasets.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teachings/data-science-fundamentals/";
+            },},{id: "teachings-introduction-to-machine-learning",
+          title: 'Introduction to Machine Learning',
+          description: "This course provides an introduction to machine learning concepts, algorithms, and applications. Students will learn about supervised and unsupervised learning, model evaluation, and practical implementations.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teachings/introduction-to-machine-learning/";
+            },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%61%64%61%62%61%6C%61%74%72%69%73%68%61%6C@%67%6D%61%69%6C.%63%6F%6D", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/trishaladabala", "_blank");
+        },
+      },{
+        id: 'social-linkedin',
+        title: 'LinkedIn',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.linkedin.com/in/trishaladabala", "_blank");
+        },
+      },{
+        id: 'social-cv',
+        title: 'CV',
+        section: 'Socials',
+        handler: () => {
+          window.open("/assets/pdf/example_pdf.pdf", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> <script defer src="/assets/al_email_protect/js/email-protect.js"></script> </body> </html>

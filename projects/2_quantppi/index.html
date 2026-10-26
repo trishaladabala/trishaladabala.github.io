@@ -1,0 +1,568 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> QuantPPI: Data-Oblivious Vector Quantization for Protein Embeddings | Trishal Adabala </title> <meta name="author" content="Trishal Adabala"> <meta name="description" content="Beating trained FAISS OPQ on 1280-D protein language model embeddings with high-dimensional geometry and zero calibration data."> <meta name="keywords" content="Trishal Adabala, Machine Learning, Deep Learning, Swarm Learning, AI, Computer Science, Shiv Nadar University, Portfolio, PhD Applicant"> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%8E%93&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=3116ba77db9ee1581d05bb3e86fbf7f1"> <link rel="canonical" href="https://trishaladabala.github.io/projects/2_quantppi/"> <script src="/assets/js/theme.js?v=5286c3e4c334d0ecb8fc0c40ff4fa7ec"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> <link rel="stylesheet" href="/assets/al_email_protect/css/email-protect.css"> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> Trishal Adabala </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item active"> <a class="nav-link" href="/">about <span class="sr-only">(current)</span> </a> </li> <li class="nav-item active"> <a class="nav-link" href="/projects/">projects <span class="sr-only">(current)</span> </a> </li> <li class="nav-item "> <a class="nav-link" href="/cv/">CV </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">QuantPPI: Data-Oblivious Vector Quantization for Protein Embeddings</h1> <p class="post-description">Beating trained FAISS OPQ on 1280-D protein language model embeddings with high-dimensional geometry and zero calibration data.</p> </header> <article> <h3 id="problem-the-512-gb-embedding-wall-in-structural-biology">Problem: The 512 GB Embedding Wall in Structural Biology</h3> <p>Modern Protein Language Models (such as Meta’s ESM-2 650M) represent biological sequences as dense 1280-dimensional continuous embeddings ($D = 1280$). At standard FP32 precision, storing a single embedding consumes <strong>5,120 bytes</strong>.</p> <ul> <li>A standard database of 100 million proteins (such as UniProt) requires <strong>512 GB of raw RAM</strong> before secondary index structures.</li> <li>Industry-standard solutions like <strong>FAISS OPQ (Optimized Product Quantization)</strong> suffer from heavy drawbacks: <ol> <li> <strong>Expensive Offline Training</strong>: Requires several minutes of iterative $k$-means clustering across thousands of sample vectors.</li> <li> <strong>Codebook Overhead</strong>: A shared rotation and centroid header of <strong>6.88 MB to 8.26 MB</strong>, which inflates per-vector memory by $+540\text{ B/vec}$ at moderate scales.</li> <li> <strong>Out-of-Distribution Fragility</strong>: Severe recall degradation ($0.996 \to 0.963$) when deployed on evolving biological sequence databases.</li> </ol> </li> <li>Meanwhile, prior <strong>data-oblivious</strong> quantization techniques (LSH, RaBitQ, TurboQuant) hit an empirical accuracy ceiling of <strong>$\sim 0.76$ Recall@20@30</strong>.</li> </ul> <hr> <h3 id="geometric-root-cause-rogue-dimensions--orthogonal-smearing">Geometric Root Cause: Rogue Dimensions &amp; Orthogonal Smearing</h3> <p>By conducting a geometric audit across multiple PLM families (ESM-2, ProtT5, SaProt), I identified a severe geometric pathology:</p> <ul> <li> <strong>Extreme Coordinate Anisotropy</strong>: The normalized Participation Ratio is $\mathrm{PR}/D = 0.0012$, with a Peak-to-RMS crest factor of $31.9$.</li> <li> <strong>Energy Concentration</strong>: Just <strong>2 to 4 “rogue coordinates” contain over 83% of the vector’s total squared Euclidean energy</strong>.</li> <li> <strong>Orthogonal Smearing Penalty</strong>: Standard data-oblivious methods apply a random orthogonal rotation $R \in O(D)$ to balance coordinate variances. However, rotating these rogue coordinates <strong>smears their massive energy uniformly across all 1280 dimensions</strong>, inflating background quantization noise by: \(\frac{\sigma_{\text{smeared}}}{\sigma_{\text{isolated}}} = \sqrt{\frac{1.0}{0.15}} \approx \mathbf{2.58\times}\) This $2.6\times$ noise inflation drowns out fine-grained biological signals separating true structural homologs from background noise.</li> </ul> <hr> <h3 id="the-theoretical-solution-the-three-pillars">The Theoretical Solution: The Three Pillars</h3> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   Input Vector x (||x|| = 1)
+          |
+          +---&gt; Dynamic Top-k Outliers (k=2 or 4) ------&gt; [Indices: uint16] + [Values: FP16]
+          |                                                         |
+          +---&gt; Disjoint Trunk z (zeros on outliers)                |  Norm recovered for free:
+                   |                                                |  ||z|| = sqrt(1 - sum v_m^2)
+                   v                                                |
+          [Circulant FFT Rotation: y = R(z / ||z||)]                |
+                   |                                                |
+                   v                                                |
+          [Spherical Lloyd-Max Quantization: u_hat]                 |
+                   |                                                |
+                   v                                                v
+   Fast ADC Scoring Engine: &lt;Rq, beta* ||z|| u_hat&gt; + sum(q_m * v_tilde_m)
+   --------------------------------------------------------------------------------------
+   • Theorem 1 (Bleed Elimination): Eliminates cross-support noise leakage.
+   • Theorem 2 (Bussgang De-Attenuation): Restores unbiased inner products via beta* = 1 / rho_Q.
+</code></pre></div></div> <h4 id="pillar-1-disjoint-split--zero-overhead-norm-recovery">Pillar 1: Disjoint Split &amp; Zero-Overhead Norm Recovery</h4> <p>We dynamically isolate the top-$k$ ($k \in {2, 4}$) outlier coordinates per vector ($x_\parallel$), leaving a quiet residual trunk ($z$). Because protein embeddings are unit-normalized ($|x|<em>2^2 = |x</em>\parallel|_2^2 + |z|_2^2 = 1$), the decoder recovers the Euclidean norm of the trunk with <strong>zero wire bytes</strong>: \(\|z\|_2 = \sqrt{\max\left(1 - \sum_{m \in S} v_m^2, \; 0\right)}\)</p> <h4 id="pillar-2-theorem-1-support-orthogonal-bleed-elimination">Pillar 2: Theorem 1 (Support-Orthogonal Bleed Elimination)</h4> <p>Even though the true trunk $z$ is strictly zero on outlier indices $S$, rotating, quantizing, and back-rotating ($R^\top \hat{u}$) injects random quantization noise back onto $S$. Multiplying these noisy coordinates by the query’s own spikes degrades ranking.</p> <ul> <li> <strong>Theorem 1</strong> establishes an algebraic identity that projects out this noise at index-build time: \(\tilde{v}_{i,m} \triangleq v_{i,m} - \|z_i\|_2 (R^\top \tilde{u}_i)_m\) This precomputes the correction directly into stored outlier values, enabling query-time search in $O(ND + Nk)$ time with zero bleed noise.</li> </ul> <h4 id="pillar-3-theorem-2-analytical-bussgang-de-attenuation">Pillar 3: Theorem 2 (Analytical Bussgang De-Attenuation)</h4> <p>Quantizing Gaussian coordinates shrinks their dot-product correlation with the query by a factor $\rho_Q &lt; 1$. Leaving this uncorrected under-weights the biological trunk relative to the FP16 outliers.</p> <ul> <li> <strong>Theorem 2</strong> derives the exact closed-form scalar multiplier $\beta_Q^* = 1/\rho_Q$ from Bussgang’s Theorem for Gaussian processes (e.g., $\beta_1^* = 1.2533$ for 1-bit; $\beta_5^* = 1.0425$ for quinary), restoring an exact, unbiased dot-product estimator without requiring any training data.</li> </ul> <hr> <h3 id="codec-engineering--multi-radix-bit-packing">Codec Engineering &amp; Multi-Radix Bit-Packing</h3> <p>To eliminate padding bits without wasting storage, I implemented custom lossless multi-radix bit-packing formats:</p> <ul> <li> <strong>Radix-5 Quinary (<code class="language-plaintext highlighter-rouge">382 B</code>)</strong>: Every 3 quinary symbols pack bijectively into 7 bits ($5^3 = 125 &lt; 128 = 2^7$). 1280 dimensions pack into $374\text{ B}$ trunk $+ 8\text{ B}$ outliers = <strong>382 B/vec</strong>.</li> <li> <strong>Radix-6 Senary (<code class="language-plaintext highlighter-rouge">432 B</code>)</strong>: Every 5 senary symbols pack into 13 bits ($6^5 = 7{,}776 &lt; 8{,}192 = 2^{13}$). 1280 dimensions divide into 256 exact quintuplets $\implies 416\text{ B}$ trunk $+ 16\text{ B}$ outliers = <strong>432 B/vec</strong> (zero padding).</li> <li> <strong>3-Bit Lloyd-Max (<code class="language-plaintext highlighter-rouge">488 B</code>)</strong>: 8 symbols in 3 bytes ($480\text{ B}$ trunk $+ 8\text{ B}$ outliers) = <strong>488 B/vec</strong>.</li> </ul> <hr> <h3 id="empirical-benchmarks-beating-trained-opq">Empirical Benchmarks: Beating Trained OPQ</h3> <p>Evaluated on canonical <strong>SCOPe ASTRAL-40</strong> ($N=15{,}166$, $Q=500$, ESM-2 650M, $D=1280$) and validated on <strong>Swiss-Prot Human</strong> ($N=13{,}003$, $Q=1{,}000$):</p> <table> <thead> <tr> <th style="text-align: left">Method</th> <th style="text-align: center">Type</th> <th style="text-align: center">Fit / Train Time</th> <th style="text-align: center">Total RAM / Vec ($N=15\text{k}$)</th> <th style="text-align: center">Recall@20@30</th> <th style="text-align: center">Top-1 Recall (R@1)</th> <th style="text-align: center">Compression Ratio</th> </tr> </thead> <tbody> <tr> <td style="text-align: left"><strong>Exact Dense FP32</strong></td> <td style="text-align: center">Reference</td> <td style="text-align: center">0.0 s</td> <td style="text-align: center">5,120 B</td> <td style="text-align: center">1.0000</td> <td style="text-align: center">1.0000</td> <td style="text-align: center">$1.0\times$</td> </tr> <tr> <td style="text-align: left"><strong>QuantPPI 3-bit Hybrid</strong></td> <td style="text-align: center"><strong>Data-Oblivious</strong></td> <td style="text-align: center"><strong>0.0 s</strong></td> <td style="text-align: center"><strong>488 B</strong></td> <td style="text-align: center"><strong>0.9993</strong></td> <td style="text-align: center"><strong>0.9600</strong></td> <td style="text-align: center"><strong>$10.5\times$</strong></td> </tr> <tr> <td style="text-align: left"><strong>QuantPPI Senary Hybrid</strong></td> <td style="text-align: center"><strong>Data-Oblivious</strong></td> <td style="text-align: center"><strong>0.0 s</strong></td> <td style="text-align: center"><strong>432 B</strong></td> <td style="text-align: center"><strong>0.9981</strong></td> <td style="text-align: center"><strong>0.9200</strong></td> <td style="text-align: center"><strong>$11.9\times$</strong></td> </tr> <tr> <td style="text-align: left"><strong>QuantPPI Quinary Hybrid</strong></td> <td style="text-align: center"><strong>Data-Oblivious</strong></td> <td style="text-align: center"><strong>0.0 s</strong></td> <td style="text-align: center"><strong>382 B</strong></td> <td style="text-align: center"><strong>0.9962</strong></td> <td style="text-align: center"><strong>0.9100</strong></td> <td style="text-align: center"><strong>$13.4\times$</strong></td> </tr> <tr> <td style="text-align: left"><strong>QuantPPI Top-4 1-bit</strong></td> <td style="text-align: center"><strong>Data-Oblivious</strong></td> <td style="text-align: center"><strong>0.0 s</strong></td> <td style="text-align: center"><strong>176 B</strong></td> <td style="text-align: center"><strong>0.9437</strong></td> <td style="text-align: center"><strong>0.8000</strong></td> <td style="text-align: center"><strong>$29.1\times$</strong></td> </tr> <tr> <td style="text-align: left"><em>FAISS Learned OPQ (M=224)</em></td> <td style="text-align: center">Trained SOTA</td> <td style="text-align: center">283.0 s</td> <td style="text-align: center">787.3 B</td> <td style="text-align: center">0.9968</td> <td style="text-align: center">0.8980</td> <td style="text-align: center">$6.5\times$</td> </tr> <tr> <td style="text-align: left"><em>FAISS Unrotated PQ (M=224)</em></td> <td style="text-align: center">Trained Baseline</td> <td style="text-align: center">14.0 s</td> <td style="text-align: center">314.7 B</td> <td style="text-align: center">0.9628</td> <td style="text-align: center">0.8100</td> <td style="text-align: center">$16.3\times$</td> </tr> <tr> <td style="text-align: left"><em>RaBitQ 1-bit</em></td> <td style="text-align: center">Prior Data-Oblivious</td> <td style="text-align: center">0.0 s</td> <td style="text-align: center">164 B</td> <td style="text-align: center">0.7645</td> <td style="text-align: center">0.6400</td> <td style="text-align: center">$31.2\times$</td> </tr> </tbody> </table> <h4 id="key-takeaways">Key Takeaways:</h4> <ol> <li> <strong>Surpasses Trained FAISS OPQ</strong>: The 3-bit Hybrid achieves <strong><code class="language-plaintext highlighter-rouge">0.9993</code> Recall@20@30</strong> (vs. OPQ’s <code class="language-plaintext highlighter-rouge">0.9968</code>, paired bootstrap $p = 4.0 \times 10^{-8}$) and <strong><code class="language-plaintext highlighter-rouge">0.9600</code> Top-1 Recall</strong> (+4.2% to +6.2% over OPQ).</li> <li> <strong>Half the Amortized Memory</strong>: At $N=15\text{k}$, OPQ consumes <code class="language-plaintext highlighter-rouge">787.3 B/vec</code> due to its 8.26 MB codebook. Our Quinary codec consumes only <strong><code class="language-plaintext highlighter-rouge">382 B/vec</code> ($2.06\times$ reduction)</strong>.</li> <li> <strong>Zero Training Latency</strong>: Encodes streaming vectors on the fly with <strong>0.0 seconds of training</strong>, eliminating the 4.7-minute $k$-means calibration phase of OPQ.</li> <li> <strong>SIMD Kernel Acceleration</strong>: Implemented Asymmetric Distance Computation in <strong>C with ARM NEON SIMD vectorization</strong>, achieving $0.35\text{ ms/query}$ latency and $234{,}000\text{ vectors/sec}$ encoding throughput.</li> </ol> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Trishal Adabala. © Trishal Adabala. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Last updated: October 26, 2026. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-about",
+          title: "about",
+          description: "",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/";
+          },
+        },{id: "nav-projects",
+          title: "projects",
+          description: "Research projects in continuous language flows, high-dimensional vector quantization, and computational connectomics, alongside software engineering systems.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/projects/";
+          },
+        },{id: "nav-cv",
+          title: "CV",
+          description: "Curriculum Vitae of Trishal Adabala highlighting education, research &amp; industry experience, technical projects, honors, and coursework.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/cv/";
+          },
+        },{id: "post-a-post-with-marimo-snippets",
+        
+          title: "a post with marimo snippets",
+        
+        description: "running Python in the browser with marimo",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/marimo/";
+          
+        },
+      },{id: "post-a-post-with-plotly-js",
+        
+          title: "a post with plotly.js",
+        
+        description: "this is what included plotly.js code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/plotly/";
+          
+        },
+      },{id: "post-a-post-with-image-galleries",
+        
+          title: "a post with image galleries",
+        
+        description: "this is what included image galleries could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/photo-gallery/";
+          
+        },
+      },{id: "post-google-gemini-updates-flash-1-5-gemma-2-and-project-astra",
+        
+          title: 'Google Gemini updates: Flash 1.5, Gemma 2 and Project Astra <svg width="1.2rem" height="1.2rem" top=".5rem" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M17 13.5v6H5v-12h6m3-3h6v6m0-6-9 9" class="icon_svg-stroke" stroke="#999" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg>',
+        
+        description: "We’re sharing updates across our Gemini family of models and a glimpse of Project Astra, our vision for the future of AI assistants.",
+        section: "Posts",
+        handler: () => {
+          
+            window.open("https://blog.google/technology/ai/google-gemini-update-flash-ai-assistant-io-2024/", "_blank");
+          
+        },
+      },{id: "post-a-post-with-tabs",
+        
+          title: "a post with tabs",
+        
+        description: "this is what included tabs in a post could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/tabs/";
+          
+        },
+      },{id: "post-a-post-with-typograms",
+        
+          title: "a post with typograms",
+        
+        description: "this is what included typograms code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/typograms/";
+          
+        },
+      },{id: "post-a-post-that-can-be-cited",
+        
+          title: "a post that can be cited",
+        
+        description: "this is what a post that can be cited looks like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/post-citation/";
+          
+        },
+      },{id: "post-a-post-with-pseudo-code",
+        
+          title: "a post with pseudo code",
+        
+        description: "this is what included pseudo code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/pseudocode/";
+          
+        },
+      },{id: "post-a-post-with-code-diff",
+        
+          title: "a post with code diff",
+        
+        description: "this is how you can display code diffs",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/code-diff/";
+          
+        },
+      },{id: "post-a-post-with-advanced-image-components",
+        
+          title: "a post with advanced image components",
+        
+        description: "this is what advanced image components could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/advanced-images/";
+          
+        },
+      },{id: "post-a-post-with-vega-lite",
+        
+          title: "a post with vega lite",
+        
+        description: "this is what included vega lite code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/vega-lite/";
+          
+        },
+      },{id: "post-a-post-with-geojson",
+        
+          title: "a post with geojson",
+        
+        description: "this is what included geojson code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/geojson-map/";
+          
+        },
+      },{id: "post-a-post-with-echarts",
+        
+          title: "a post with echarts",
+        
+        description: "this is what included echarts code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/echarts/";
+          
+        },
+      },{id: "post-a-post-with-chart-js",
+        
+          title: "a post with chart.js",
+        
+        description: "this is what included chart.js code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/chartjs/";
+          
+        },
+      },{id: "post-a-post-with-tikzjax",
+        
+          title: "a post with TikZJax",
+        
+        description: "this is what included TikZ code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/tikzjax/";
+          
+        },
+      },{id: "post-a-post-with-bibliography",
+        
+          title: "a post with bibliography",
+        
+        description: "an example of a blog post with bibliography",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/post-bibliography/";
+          
+        },
+      },{id: "post-a-post-with-jupyter-notebook",
+        
+          title: "a post with jupyter notebook",
+        
+        description: "an example of a blog post with jupyter notebook",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/jupyter-notebook/";
+          
+        },
+      },{id: "post-a-post-with-custom-blockquotes",
+        
+          title: "a post with custom blockquotes",
+        
+        description: "an example of a blog post with custom blockquotes",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/custom-blockquotes/";
+          
+        },
+      },{id: "post-a-post-with-table-of-contents-on-a-sidebar",
+        
+          title: "a post with table of contents on a sidebar",
+        
+        description: "an example of a blog post with table of contents on a sidebar",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/sidebar-table-of-contents/";
+          
+        },
+      },{id: "post-a-post-with-audios",
+        
+          title: "a post with audios",
+        
+        description: "this is what included audios could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/audios/";
+          
+        },
+      },{id: "post-a-post-with-videos",
+        
+          title: "a post with videos",
+        
+        description: "this is what included videos could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/videos/";
+          
+        },
+      },{id: "post-displaying-beautiful-interactive-tables",
+        
+          title: "displaying beautiful interactive tables",
+        
+        description: "an example of how to use interactive tables in al-folio",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/tables/";
+          
+        },
+      },{id: "post-a-post-with-table-of-contents",
+        
+          title: "a post with table of contents",
+        
+        description: "an example of a blog post with table of contents",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/table-of-contents/";
+          
+        },
+      },{id: "post-a-post-with-giscus-comments",
+        
+          title: "a post with giscus comments",
+        
+        description: "an example of a blog post with giscus comments",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2022/giscus-comments/";
+          
+        },
+      },{id: "post-یک-نوشتهٔ-راست-چین",
+        
+          title: "یک نوشتهٔ راست‌چین",
+        
+        description: "نمونه‌ای از پشتیبانی زبان‌های راست‌چین",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2022/rtl/";
+          
+        },
+      },{id: "post-displaying-external-posts-on-your-al-folio-blog",
+        
+          title: 'Displaying External Posts on Your al-folio Blog <svg width="1.2rem" height="1.2rem" top=".5rem" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M17 13.5v6H5v-12h6m3-3h6v6m0-6-9 9" class="icon_svg-stroke" stroke="#999" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg>',
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.open("https://medium.com/@al-folio/displaying-external-posts-on-your-al-folio-blog-b60a1d241a0a?source=rss-17feae71c3c4------2", "_blank");
+          
+        },
+      },{id: "post-a-post-with-redirect",
+        
+          title: "a post with redirect",
+        
+        description: "you can also redirect to assets like pdf",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/assets/pdf/example_pdf.pdf";
+          
+        },
+      },{id: "post-a-post-with-diagrams",
+        
+          title: "a post with diagrams",
+        
+        description: "an example of a blog post with diagrams",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2021/diagrams/";
+          
+        },
+      },{id: "post-a-distill-style-blog-post",
+        
+          title: "a distill-style blog post",
+        
+        description: "an example of a distill-style blog post and main elements",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2021/distill/";
+          
+        },
+      },{id: "post-a-post-with-twitter",
+        
+          title: "a post with twitter",
+        
+        description: "an example of a blog post with twitter",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2020/twitter/";
+          
+        },
+      },{id: "post-a-post-with-disqus-comments",
+        
+          title: "a post with disqus comments",
+        
+        description: "an example of a blog post with disqus comments",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2015/disqus-comments/";
+          
+        },
+      },{id: "post-a-post-with-math",
+        
+          title: "a post with math",
+        
+        description: "an example of a blog post with some math",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2015/math/";
+          
+        },
+      },{id: "post-a-post-with-code",
+        
+          title: "a post with code",
+        
+        description: "an example of a blog post with some code",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2015/code/";
+          
+        },
+      },{id: "post-a-post-with-images",
+        
+          title: "a post with images",
+        
+        description: "this is what included images could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2015/images/";
+          
+        },
+      },{id: "post-a-post-with-formatting-and-links",
+        
+          title: "a post with formatting and links",
+        
+        description: "march &amp; april, looking forward to summer",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2015/formatting-and-links/";
+          
+        },
+      },{id: "books-the-godfather",
+          title: 'The Godfather',
+          description: "",
+          section: "Books",handler: () => {
+              window.location.href = "/books/the_godfather/";
+            },},{id: "news-elected-to-the-pulse-organizing-committee-to-lead-competitive-programming-contests-and-conduct-technical-workshops-on-algorithms-and-data-structures",
+          title: 'Elected to the PULSE organizing committee to lead competitive programming contests and conduct...',
+          description: "",
+          section: "News",},{id: "news-started-as-a-software-development-intern-cpp-3-at-hewlett-packard-enterprise-hpe-working-on-extending-hpe-swarm-learning-to-scikit-learn-for-decentralized-privacy-preserving-training",
+          title: 'Started as a Software Development Intern (CPP-3) at Hewlett Packard Enterprise (HPE), working...',
+          description: "",
+          section: "News",},{id: "news-awarded-the-dean-s-list-at-shiv-nadar-university-for-outstanding-academic-performance-in-spring-2026-cumulative-gpa-9-14-10-0",
+          title: 'Awarded the Dean’s List at Shiv Nadar University for outstanding academic performance in...',
+          description: "",
+          section: "News",},{id: "projects-continuous-language-flows-manifold-geometry-amp-causal-clocks",
+          title: 'Continuous Language Flows: Manifold Geometry &amp;amp; Causal Clocks',
+          description: "Investigating manifold drift retraction (ECP), causal wave-clock schedules, and trajectory distillation in continuous-latent language flow matching.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/1_continuous_flows/";
+            },},{id: "projects-quantppi-data-oblivious-vector-quantization-for-protein-embeddings",
+          title: 'QuantPPI: Data-Oblivious Vector Quantization for Protein Embeddings',
+          description: "Beating trained FAISS OPQ on 1280-D protein language model embeddings with high-dimensional geometry and zero calibration data.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/2_quantppi/";
+            },},{id: "projects-vectorwing-quantitative-connectomics-in-the-drosophila-central-complex",
+          title: 'VectorWing: Quantitative Connectomics in the Drosophila Central Complex',
+          description: "Out-of-core connectomic graph analysis of 16.8M synapses, identifying topological edge-swap artifacts and a reciprocity inversion in the insect steering system.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/3_connectomics/";
+            },},{id: "projects-decentralized-swarm-learning-with-scikit-learn",
+          title: 'Decentralized Swarm Learning with Scikit-Learn',
+          description: "Extending HPE Swarm Learning to classical estimators for privacy-preserving decentralized model training.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/4_swarm_learning/";
+            },},{id: "projects-introspect-ml-observability-amp-model-evaluation-platform",
+          title: 'Introspect - ML Observability &amp;amp; Model Evaluation Platform',
+          description: "Framework-agnostic observability and evaluation platform for autoregressive and diffusion models with OpenTelemetry.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/5_introspect/";
+            },},{id: "projects-dolos-plagiarism-detection-amp-assessment-engine",
+          title: 'Dolos Plagiarism Detection &amp;amp; Assessment Engine',
+          description: "Integration of AST-based Dolos plagiarism detection into DMOJ with anti-cheating penalty mechanics.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/6_dmoj_assessment/";
+            },},{id: "projects-cartoon-to-realistic-image-translation-using-cyclegan",
+          title: 'Cartoon-to-Realistic Image Translation using CycleGAN',
+          description: "Unpaired image-to-image translation pipeline in PyTorch for photorealistic synthesis from artistic cartoons.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/7_cyclegan/";
+            },},{id: "projects-supermarket-pos-amp-inventory-management-system",
+          title: 'Supermarket POS &amp;amp; Inventory Management System',
+          description: "Modular desktop retail automation system using JavaFX, MySQL, JDBC, and test-driven development with JUnit and Mockito.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/8_supermarket/";
+            },},{id: "teachings-data-science-fundamentals",
+          title: 'Data Science Fundamentals',
+          description: "This course covers the foundational aspects of data science, including data collection, cleaning, analysis, and visualization. Students will learn practical skills for working with real-world datasets.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teachings/data-science-fundamentals/";
+            },},{id: "teachings-introduction-to-machine-learning",
+          title: 'Introduction to Machine Learning',
+          description: "This course provides an introduction to machine learning concepts, algorithms, and applications. Students will learn about supervised and unsupervised learning, model evaluation, and practical implementations.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teachings/introduction-to-machine-learning/";
+            },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%61%64%61%62%61%6C%61%74%72%69%73%68%61%6C@%67%6D%61%69%6C.%63%6F%6D", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/trishaladabala", "_blank");
+        },
+      },{
+        id: 'social-linkedin',
+        title: 'LinkedIn',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.linkedin.com/in/trishaladabala", "_blank");
+        },
+      },{
+        id: 'social-cv',
+        title: 'CV',
+        section: 'Socials',
+        handler: () => {
+          window.open("/assets/pdf/example_pdf.pdf", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> <script defer src="/assets/al_email_protect/js/email-protect.js"></script> </body> </html>
