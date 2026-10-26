@@ -1,221 +1,162 @@
 {
   "basics": {
-    "name": "Albert Einstein",
-    "label": "Scientist",
+    "name": "Trishal Adabala",
+    "label": "Undergraduate Researcher & Software Developer",
     "image": "",
-    "email": "einstein@example.com",
-    "phone": "(912) 123-4567",
-    "summary": "A German-born theoretical physicist, widely ranked among the greatest and most influential scientists of all time",
+    "email": "adabalatrishal@gmail.com",
+    "phone": "+91-8500155577",
+    "summary": "B.Tech student in Computer Science and Engineering with a specialization in AI/ML and a minor in Mathematics at Shiv Nadar University (GPA: 9.14/10). Experienced in decentralized machine learning (HPE Swarm Learning), ML observability, deep learning, and full-stack software development. Aspiring researcher actively seeking PhD and Master's opportunities in Computer Science and Artificial Intelligence.",
     "location": {
-      "address": "2712 Broadway St",
-      "postalCode": "CA 94115",
-      "city": "San Francisco",
-      "countryCode": "US",
-      "region": "California"
+      "city": "Greater Noida",
+      "region": "Delhi NCR",
+      "countryCode": "IN"
     },
-    "profiles": []
+    "profiles": [
+      {
+        "network": "GitHub",
+        "username": "trishaladabala",
+        "url": "https://github.com/trishaladabala"
+      },
+      {
+        "network": "LinkedIn",
+        "username": "trishaladabala",
+        "url": "https://linkedin.com/in/trishaladabala"
+      }
+    ]
   },
-  "work": [
-    {
-      "name": "Institute for Advanced Study, Princeton University",
-      "position": "Professor of Theoretical Physics",
-      "location": "Princeton University, NJ",
-      "startDate": "1933-01-01",
-      "endDate": "1955-01-01",
-      "summary": "Teaching at Palmer Physical Laboratory (now 302 Frist Campus Center). While not a professor at Princeton, I associated with the physics professors and continued to give lectures on campus.",
-      "highlights": ["Relativity", "Description 2."]
-    },
-    {
-      "name": "California Institute of Technology",
-      "position": "Visiting Professor",
-      "location": "Pasadena, California, US",
-      "startDate": "1933-01-01",
-      "endDate": "1933-01-01",
-      "summary": "",
-      "highlights": ["Description 1.", "Description 2."]
-    },
-    {
-      "name": "Kaiser Wilhelm Institute for Physics",
-      "position": "Director",
-      "location": "Berlin, Germany",
-      "startDate": "1917-01-01",
-      "endDate": "1933-01-01",
-      "summary": "",
-      "highlights": []
-    },
-    {
-      "name": "Karl-Ferdinand University",
-      "position": "Professor of Theoretical Physics",
-      "location": "Prague, Czechoslovakia",
-      "startDate": "1911-01-01",
-      "endDate": "1917-01-01",
-      "summary": "",
-      "highlights": []
-    },
-    {
-      "name": "University of Zurich",
-      "position": "Associate Professor of Theoretical Physics",
-      "location": "Zurich, Switzerland",
-      "startDate": "1909-01-01",
-      "endDate": "1911-01-01",
-      "summary": "",
-      "highlights": []
-    }
-  ],
-  "volunteer": [
-    {
-      "organization": "People's Climate March",
-      "location": "Zurich, Switzerland",
-      "position": "Lead Organizer",
-      "startDate": "2014-04-01",
-      "endDate": "2015-07-01",
-      "summary": "Lead organizer for the New York City branch of the People's Climate March, the largest climate march in history.",
-      "highlights": ["Awarded 'Climate Hero' award by Greenpeace for my efforts organizing the march.", "Men of the year 2014 by Time magazine"]
-    }
-  ],
   "education": [
     {
-      "institution": "University of Zurich",
-      "location": "Zurich, Switzerland",
-      "url": "https://www.uzh.ch/",
-      "area": "Physics",
-      "studyType": "PhD",
-      "startDate": "1900-01-01",
-      "endDate": "1905-01-01",
-      "score": "",
-      "courses": ["Theory of Relativity"],
-      "highlights": ["Description 1.", "Description 2."]
-    },
-    {
-      "institution": "Eidgenössische Technische Hochschule",
-      "location": "Zurich, Switzerland",
-      "area": "Physics",
-      "studyType": "Federal teaching diploma",
-      "startDate": "1896-01-01",
-      "endDate": "1900-01-01",
-      "score": "",
-      "courses": [],
-      "highlights": ["Description 1.", "Description 2."]
-    }
-  ],
-  "awards": [
-    {
-      "title": "Nobel Prize in Physics",
-      "date": "1921-11-01",
-      "awarder": "Royal Swedish Academy of Sciences",
-      "url": "https://www.nobelprize.org/prizes/physics/1921/einstein/biographical/",
-      "summary": "The Nobel Prizes are five separate prizes that, according to Alfred Nobel's will of 1895, are awarded to 'those who, during the preceding year, have conferred the greatest benefit to humankind.'"
-    },
-    {
-      "title": "Max Planck Medal",
-      "date": "2029-01-01",
-      "awarder": "German Physical Society",
-      "summary": ""
-    }
-  ],
-  "certificates": [
-    {
-      "name": "Machine Learning",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "icon": "fa-solid fa-location-dot"
-    },
-    {
-      "name": "Quantum Computing",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "icon": "fa-solid fa-tag"
-    },
-    {
-      "name": "Quantum Information",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "icon": "fa-solid fa-envelope"
-    }
-  ],
-  "publications": [
-    {
-      "name": "Zur Elektrodynamik bewegter Körper",
-      "publisher": "Annalen der Physik",
-      "releaseDate": "1905-06-30",
-      "url": "https://en.wikisource.org/wiki/Translation:On_the_Electrodynamics_of_Moving_Bodies",
-      "summary": "It concerned an interpretation of the Michelson–Morley experiment and the properties of light and time. Special relativity incorporates the principle that the speed of light is the same for all inertial observers regardless of the state of motion of the source."
-    },
-    {
-      "name": "Über einen die Erzeugung und Verwandlung des Lichtes betreffenden heuristischen Gesichtspunkt",
-      "publisher": "Annalen der Physik",
-      "releaseDate": "1905-03-18",
-      "url": "https://de.wikisource.org/wiki/Über_einen_die_Erzeugung_und_Verwandlung_des_Lichtes_betreffenden_heuristischen_Gesichtspunkt",
-      "summary": "In the second paper, he applied the quantum theory to light to explain the photoelectric effect. In particular, he used the idea of light quanta (photons) to explain experimental results, but stressed the importance of the experimental results. The importance of his work on the photoelectric effect earned him the Nobel Prize in Physics in 1921."
-    },
-    {
-      "name": "Die Grundlage der allgemeinen Relativitätstheorie",
-      "publisher": "Annalen der Physik",
-      "releaseDate": "1916-03-20",
-      "url": "https://de.wikisource.org/wiki/Die_Grundlage_der_allgemeinen_Relativitätstheorie",
-      "summary": "The publication of the theory of general relativity made him internationally famous. He was professor of physics at the universities of Zurich (1909–1911) and Prague (1911–1912), before he returned to ETH Zurich (1912–1914)."
-    }
-  ],
-  "skills": [
-    {
-      "name": "Physics",
-      "level": "Master",
-      "icon": "fa-solid fa-hashtag",
-      "keywords": [
-        "Quantum Mechanics",
-        "Quantum Computing",
-        "Quantum Information",
-        "Quantum Cryptography",
-        "Quantum Communication",
-        "Quantum Teleportation"
+      "institution": "Shiv Nadar Institute of Eminence",
+      "location": "Greater Noida, Delhi NCR",
+      "area": "Computer Science and Engineering (Specialization in AI/ML, Minor in Mathematics)",
+      "studyType": "Bachelor of Technology",
+      "startDate": "2023-08-01",
+      "endDate": "2027-05-31",
+      "score": "GPA: 9.14 / 10.0",
+      "courses": [
+        "Introduction to Machine Learning",
+        "Distributed Systems",
+        "Natural Language Processing",
+        "Social and Information Networks",
+        "Cloud Computing",
+        "Real Analysis",
+        "Ordinary Differential Equations",
+        "Vector Calculus and Geometry",
+        "Elementary Number Theory",
+        "Introduction to Mathematical Finance"
       ]
-    }
-  ],
-  "languages": [
-    {
-      "language": "German",
-      "fluency": "Native speaker",
-      "icon": ""
     },
     {
-      "language": "English",
-      "fluency": "Fluent",
-      "icon": ""
+      "institution": "Senior Secondary School (Class XII)",
+      "location": "Kakinada, Andhra Pradesh",
+      "area": "Physics, Chemistry, Mathematics (PCM)",
+      "studyType": "Intermediate",
+      "startDate": "2021-06-01",
+      "endDate": "2023-05-31",
+      "score": "Percentage: 93.8%"
+    },
+    {
+      "institution": "Secondary School (Class X)",
+      "location": "Kakinada, Andhra Pradesh",
+      "area": "General Studies",
+      "studyType": "High School",
+      "startDate": "2020-06-01",
+      "endDate": "2021-05-31",
+      "score": "Percentage: 97.2%"
     }
   ],
-  "interests": [
+  "work": [
     {
-      "name": "Physics",
-      "icon": "fa-solid fa-tag",
-      "keywords": [
-        "Quantum Mechanics",
-        "Quantum Computing",
-        "Quantum Information",
-        "Quantum Cryptography",
-        "Quantum Communication",
-        "Quantum Teleportation"
+      "name": "Hewlett Packard Enterprise (HPE)",
+      "position": "Software Development Intern (CPP-3)",
+      "location": "Remote",
+      "startDate": "2026-02-01",
+      "endDate": "2026-07-31",
+      "summary": "Decentralized Swarm Learning & Framework Generalization",
+      "highlights": [
+        "Scikit-Learn Integration: Extended HPE Swarm Learning to support Scikit-Learn models, enabling decentralized privacy-preserving training beyond the existing TensorFlow and PyTorch frameworks.",
+        "Framework Development: Generalized model integration by implementing framework-independent weight handling and estimator support for diverse Scikit-Learn models.",
+        "Testing & Validation: Validated and debugged the Scikit-Learn integration across multiple estimators to ensure compatibility with the existing Swarm Learning framework."
       ]
-    }
-  ],
-  "references": [
-    {
-      "name": "Professor John Doe",
-      "icon": "fa-solid fa-laptop",
-      "reference": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam condimentum, diam quis convallis euismod, arcu mi ullamcorper lorem, a vestibulum nunc magna at sem. Sed in risus ac felis varius blandit."
     },
     {
-      "name": "Professor Jane Smith",
-      "icon": "fa-solid fa-thumbtack",
-      "reference": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam condimentum, diam quis convallis euismod, arcu mi ullamcorper lorem, a vestibulum nunc magna at sem. Sed in risus ac felis varius blandit."
+      "name": "Hewlett Packard Enterprise (HPE)",
+      "position": "Software Development Intern (CPP-2)",
+      "location": "Remote",
+      "startDate": "2025-05-01",
+      "endDate": "2026-01-31",
+      "summary": "Assessment Infrastructure & Dolos Plagiarism Detection",
+      "highlights": [
+        "Plagiarism Detection: Integrated Dolos-based plagiarism detection into the DMOJ programming contest platform.",
+        "MCQ System and Penalty: Developed the backend for an MCQ assessment module with question management, automated answer evaluation, score computation, and a penalty system for video and tab-switching violations."
+      ]
+    },
+    {
+      "name": "PULSE (Programmers United for Learning and Skill Enhancement)",
+      "position": "Organizing Committee Member",
+      "location": "Greater Noida, Delhi NCR",
+      "startDate": "2024-08-01",
+      "endDate": "2025-04-30",
+      "summary": "Technical Mentorship & Coding Competitions",
+      "highlights": [
+        "Competitive Programming: Organized weekly coding contests and technical workshops for university students.",
+        "Event Coordination: Conducted interview-preparation sessions focused on algorithms and data structures."
+      ]
     }
   ],
   "projects": [
     {
-      "name": "Quantum Computing",
-      "summary": "Quantum computing is the use of quantum-mechanical phenomena such as superposition and entanglement to perform computation. Computers that perform quantum computations are known as quantum computers.",
-      "highlights": ["Quantum Teleportation", "Quantum Cryptography"],
-      "startDate": "2018-01-01",
-      "endDate": "2018-01-01"
+      "name": "Cartoon-to-Realistic Image Translation using CycleGAN",
+      "description": "Deep learning image translation pipeline in PyTorch for domain translation from stylized cartoons to photorealistic images.",
+      "highlights": [
+        "Prepared and curated unpaired datasets, designed the generator and discriminator training pipeline, and generated realistic images from cartoon inputs.",
+        "Utilized cycle-consistency loss, adversarial loss, and identity loss for high-fidelity cross-domain mapping."
+      ],
+      "keywords": ["PyTorch", "CycleGAN", "Deep Learning", "Computer Vision"]
+    },
+    {
+      "name": "Introspect - ML Observability Platform",
+      "description": "ML observability platform featuring a framework-agnostic model adapter for comprehensive model evaluation.",
+      "highlights": [
+        "Enabled end-to-end evaluation of autoregressive and diffusion language models with telemetry, consistency scoring, and semantic drift analysis.",
+        "Instrumented telemetry via OpenTelemetry with a FastAPI and SQLite backend."
+      ],
+      "keywords": ["Python", "FastAPI", "OpenTelemetry", "SQLite", "ML Observability"]
+    },
+    {
+      "name": "Supermarket Automation System",
+      "description": "JavaFX desktop POS and inventory management system following MVC architecture.",
+      "highlights": [
+        "Implemented real-time billing, inventory tracking, customer loyalty management, and sales reporting using MySQL and JDBC.",
+        "Authored comprehensive unit tests with JUnit and Mockito to ensure robust business logic."
+      ],
+      "keywords": ["Java", "JavaFX", "MySQL", "JDBC", "JUnit", "Mockito", "MVC"]
+    }
+  ],
+  "skills": [
+    {
+      "name": "Programming Languages",
+      "keywords": ["Python", "Java", "C++", "C", "SQL", "Bash"]
+    },
+    {
+      "name": "Frameworks & Libraries",
+      "keywords": ["PyTorch", "Scikit-Learn", "FastAPI", "Django", "OpenCV", "NumPy"]
+    },
+    {
+      "name": "Databases",
+      "keywords": ["SQLite", "MySQL", "MariaDB"]
+    },
+    {
+      "name": "Tools & Infrastructure",
+      "keywords": ["Git", "GitHub", "Docker", "Linux", "GitHub Actions", "OpenTelemetry"]
+    }
+  ],
+  "awards": [
+    {
+      "title": "Dean's List Award for Academic Excellence",
+      "date": "2026-05-01",
+      "awarder": "Shiv Nadar Institute of Eminence",
+      "summary": "Awarded for outstanding academic performance (Monsoon 2023, Spring 2024, Monsoon 2025, Spring 2026)."
     }
   ]
 }
