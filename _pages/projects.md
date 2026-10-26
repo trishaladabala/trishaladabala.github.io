@@ -2,10 +2,10 @@
 layout: page
 title: projects
 permalink: /projects/
-description: Research projects in continuous language flows, high-dimensional vector quantization, and computational connectomics, alongside software engineering systems.
+description: Internship engineering projects and software systems.
 nav: true
 nav_order: 2
-display_categories: [research projects, software engineering & systems]
+display_categories: [internship projects, software engineering & systems]
 horizontal: false
 ---
 

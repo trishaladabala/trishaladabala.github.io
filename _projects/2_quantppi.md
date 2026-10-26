@@ -3,7 +3,7 @@ layout: page
 title: "QuantPPI: Data-Oblivious Vector Quantization for Protein Embeddings"
 description: Beating trained FAISS OPQ on 1280-D protein language model embeddings with high-dimensional geometry and zero calibration data.
 importance: 2
-category: research projects
+category: research
 related_publications: false
 ---
 

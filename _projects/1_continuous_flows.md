@@ -3,7 +3,7 @@ layout: page
 title: "Continuous Language Flows: Manifold Geometry & Causal Clocks"
 description: Investigating manifold drift retraction (ECP), causal wave-clock schedules, and trajectory distillation in continuous-latent language flow matching.
 importance: 1
-category: research projects
+category: research
 related_publications: false
 ---
 

@@ -6,7 +6,7 @@ cv:
   location: Greater Noida, Delhi NCR, India
   image: ""
   summary: >
-    B.Tech student in Computer Science and Engineering with a specialization in AI/ML and a minor in Mathematics at Shiv Nadar University (GPA: 9.14/10). Undergraduate researcher working on continuous-latent language flows, high-dimensional vector quantization, and quantitative connectomics. Experienced in decentralized machine learning (HPE Swarm Learning) and systems engineering. Actively seeking PhD and Master's opportunities in Computer Science and Artificial Intelligence.
+    B.Tech student in Computer Science and Engineering with a specialization in AI/ML and a minor in Mathematics at Shiv Nadar University (GPA: 9.14/10). Undergraduate researcher working on continuous-latent language flows, high-dimensional vector quantization, and computational biology & connectomics. Experienced in decentralized machine learning (HPE Swarm Learning) and systems engineering. Actively seeking PhD and Master's opportunities in Computer Science and Artificial Intelligence.
 
   social_networks:
     - network: GitHub
@@ -100,17 +100,36 @@ cv:
         start_date: 2025-06
         end_date: 2025-12
 
-      - name: "VectorWing: Drosophila Central Complex Connectomics"
-        summary: Out-of-core connectomic graph analysis and dynamical circuit modeling using the FlyWire FAFB v783 dataset (16.8M synapses).
+      - name: "VectorWing: Whole-Brain Drosophila Connectomics"
+        summary: Computational biology pipeline analyzing whole-brain synaptic connectivity and neural microcircuits from the FlyWire FAFB v783 dataset (16.8M synapses).
         highlights:
-          - "Built an out-of-core graph analytics pipeline processing 16.8M synapses under a strict <380 MB RAM ceiling on commodity hardware."
-          - "Identified that standard edge-swapping configuration models collapse physical reciprocity by 4.61x, conflating topological loops with chemical affinity."
-          - "Formulated degree-stratified conditional permutation null models, isolating a true +20.6% to +31.8% GABA-GABA excess in the Ellipsoid Body (Z > +13, p = 0.0005)."
+          - "Engineered an out-of-core pipeline processing 16.8M synapses from whole-brain electron microscopy under a strict <380 MB RAM ceiling on commodity hardware."
+          - "Dissected null models in connectomics, discovering that edge-swapping collapses physical reciprocity by 4.61x; designed degree-stratified conditional permutation models to isolate true chemospecific preferences."
+          - "Isolated a true +20.6% to +31.8% GABA-GABA excess in the Ellipsoid Body heading compass (Z > +13, p = 0.0005) mapping 88.2% to homotypic ring neurons."
           - "Discovered a 2.53x to 5.92x heterotypic ACh <-> GABA reciprocity inversion in the Fan-Shaped Body with 100% strict directional chemical polarity (554 dyads, p < 0.001)."
-          - "Implemented a 16-column continuous rate model demonstrating subtractive feedback attenuation that caps columnar firing at 30.6 Hz and preserves heading bump tuning."
-        keywords: "Computational Connectomics, Graph Theory, Statistical Null Models, MCMC, Dynamical Rate Models, Apache Arrow, Python"
+          - "Constructed a 16-column continuous neural rate simulation demonstrating that tangential inhibitory feedback provides subtractive attenuation capping columnar firing at 30.6 Hz."
+        keywords: "Computational Biology, Connectomics, Structural Bioinformatics, FlyWire, Neural Circuit Dynamics, Python, Apache Arrow"
         start_date: 2025-01
         end_date: 2025-08
+
+    Internship Projects:
+      - name: Decentralized Swarm Learning with Scikit-Learn
+        summary: Hewlett Packard Enterprise (HPE) — Software Development Intern (CPP-3).
+        highlights:
+          - "Extended HPE Swarm Learning beyond deep neural networks to support classical Scikit-Learn estimators for privacy-preserving machine learning."
+          - "Implemented framework-independent weight handling and decentralized parameter aggregation routines."
+        keywords: "Distributed ML, Swarm Learning, Scikit-Learn, Privacy-Preserving AI, Python"
+        start_date: 2026-02
+        end_date: 2026-07
+
+      - name: Dolos Plagiarism Detection & Assessment Infrastructure
+        summary: Hewlett Packard Enterprise (HPE) — Software Development Intern (CPP-2).
+        highlights:
+          - "Integrated AST-based Dolos plagiarism detection into the DMOJ programming contest platform."
+          - "Developed the backend for an MCQ assessment module with question management and automated penalty scoring for proctoring violations."
+        keywords: "Python, DMOJ, Dolos, Web Backend, Anti-Cheating Telemetry"
+        start_date: 2025-05
+        end_date: 2026-01
 
     Software & Systems Projects:
       - name: Introspect - ML Observability & Model Evaluation Platform
@@ -143,19 +162,19 @@ cv:
     Skills:
       - name: Mathematics & Theory
         icon: fa-solid fa-square-root-variable
-        keywords: "High-Dimensional Probability, Signal Quantization (Lloyd-Max, Bussgang's Theorem), Spectral Anisotropy, Differential Equations & Dynamical Systems, Graph Theory, Non-Parametric Statistics (Bootstrap, MCMC, FDR Control)"
+        keywords: "High-Dimensional Probability, Signal Quantization (Lloyd-Max, Bussgang's Theorem), Spectral Anisotropy, Differential Equations & Dynamical Systems, Non-Parametric Statistics (Bootstrap, MCMC, FDR Control)"
 
       - name: Machine Learning & Frameworks
         icon: fa-solid fa-brain
         keywords: "PyTorch, Hugging Face Transformers, Continuous Flow Matching, Diffusion Models, Scikit-Learn, FAISS, NumPy, SciPy"
 
+      - name: Computational Biology & Neuroinformatics
+        icon: fa-solid fa-dna
+        keywords: "Protein Language Models (ESM-2, ProtT5), Structural Bioinformatics, FlyWire Whole-Brain Connectome Analysis, Neural Circuit Dynamics"
+
       - name: Languages & Systems
         icon: fa-solid fa-code
         keywords: "Python, C (ARM NEON SIMD), Java, C++, SQL, Bash, Apache Arrow / PyArrow IPC"
-
-      - name: Computational Biology
-        icon: fa-solid fa-dna
-        keywords: "Protein Language Models (ESM-2, ProtT5), Structural Bioinformatics, FlyWire Connectome Analysis"
 
       - name: Developer Tools & Infrastructure
         icon: fa-solid fa-screwdriver-wrench

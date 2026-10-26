@@ -3,7 +3,7 @@ layout: page
 title: Dolos Plagiarism Detection & Assessment Engine
 description: Integration of AST-based Dolos plagiarism detection into DMOJ with anti-cheating penalty mechanics.
 importance: 2
-category: software engineering & systems
+category: internship projects
 related_publications: false
 ---
 
