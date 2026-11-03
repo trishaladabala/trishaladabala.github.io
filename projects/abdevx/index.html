@@ -1,0 +1,590 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> AbDev-X: Therapeutic Antibody Developability with Paired-Sequence Gaussian Processes | Trishal Adabala </title> <meta name="author" content="Trishal Adabala"> <meta name="description" content="Predicting clinical antibody developability across 5 biophysical assays using paired-sequence Gaussian processes, multiplicative Kolmogorov-Arnold networks, and OOD uncertainty triage."> <meta name="keywords" content="Trishal Adabala, Machine Learning, Deep Learning, Swarm Learning, AI, Computer Science, Shiv Nadar University, Portfolio, PhD Applicant"> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%8E%93&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=3116ba77db9ee1581d05bb3e86fbf7f1"> <link rel="canonical" href="https://trishaladabala.github.io/projects/abdevx/"> <script src="/assets/js/theme.js?v=5286c3e4c334d0ecb8fc0c40ff4fa7ec"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> <link rel="stylesheet" href="/assets/al_email_protect/css/email-protect.css"> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> Trishal Adabala </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/research/">research </a> </li> <li class="nav-item active"> <a class="nav-link" href="/projects/">projects <span class="sr-only">(current)</span> </a> </li> <li class="nav-item "> <a class="nav-link" href="/cv/">CV </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">AbDev-X: Therapeutic Antibody Developability with Paired-Sequence Gaussian Processes</h1> <p class="post-description">Predicting clinical antibody developability across 5 biophysical assays using paired-sequence Gaussian processes, multiplicative Kolmogorov-Arnold networks, and OOD uncertainty triage.</p> </header> <article> <h3 id="problem--biological-motivation">Problem &amp; Biological Motivation</h3> <p>Therapeutic monoclonal antibodies (mAbs) must exhibit high antigen affinity alongside favorable <strong>developability properties</strong>—including low self-association, minimal hydrophobic aggregation, thermal stability, low polyreactivity, and high recombinant expression yields. Failures in developability account for substantial attrition in clinical development pipelines.</p> <p>In the <strong>AbDev-X</strong> research project, I investigated machine learning architectures for predicting five key experimental developability assays from paired variable heavy ($\text{VH}$) and light ($\text{VL}$) chain sequences:</p> <ol> <li> <strong><code class="language-plaintext highlighter-rouge">HIC</code></strong>: Hydrophobic Interaction Chromatography retention time (measuring surface hydrophobicity; lower is better).</li> <li> <strong><code class="language-plaintext highlighter-rouge">Tm2</code></strong>: Second thermal unfolding transition temperature ($^\circ\text{C}$; higher is better).</li> <li> <strong><code class="language-plaintext highlighter-rouge">AC-SINS (pH 7.4)</code></strong>: Affinity-Capture Self-Interaction Nanoparticle Spectroscopy plasmon shift (measuring colloidal self-association; lower is better).</li> <li> <strong><code class="language-plaintext highlighter-rouge">PR_CHO</code></strong>: Polyreactivity score against solubilized CHO cell membrane proteins (lower is better).</li> <li> <strong><code class="language-plaintext highlighter-rouge">Titer</code></strong>: Recombinant expression yield in CHO cells (mg/L; higher is better).</li> </ol> <hr> <h3 id="benchmark-cohorts--cross-validation-protocols">Benchmark Cohorts &amp; Cross-Validation Protocols</h3> <ul> <li> <strong><code class="language-plaintext highlighter-rouge">GDPa1</code> Clinical Cohort ($N=246$)</strong>: Clinical-stage therapeutic antibodies evaluated under three strict 5-fold cross-validation protocols: <ol> <li> <strong>Random 5-Fold CV</strong>: Uniform random partition.</li> <li> <strong>Hierarchical Sequence-Cluster 5-Fold CV</strong>: Agglomerative clustering at $80\%$ sequence identity threshold across concatenated $\text{VH}+\text{VL}$ sequences, ensuring whole sequence families do not leak across folds.</li> <li> <strong>Cluster + IgG Isotype Stratified 5-Fold CV</strong>: Sequence clusters jointly stratified by heavy-chain IgG subclass ($\text{IgG1}, \text{IgG2}, \text{IgG4}$) to prevent both family and isotype distribution shifts across folds.</li> </ol> </li> <li> <strong><code class="language-plaintext highlighter-rouge">GDPa3</code> External Benchmark ($N=80$)</strong>: Held-out cohort of human repertoire IgG1 antibodies used for out-of-distribution (OOD) generalization testing.</li> </ul> <hr> <h3 id="core-research-contributions--methodological-breakthroughs">Core Research Contributions &amp; Methodological Breakthroughs</h3> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                      +------------------------------------------+
+                      |   Paired Antibody Sequences (VH + VL)    |
+                      +------------------------------------------+
+                                           |
+                   +-----------------------+-----------------------+
+                   |                                               |
+                   v                                               v
+     [ Paired Sequence Kernels ]                      [ Biophysical Feature Extraction ]
+     • 298-position AHo alignment                     • Physicochemical (E3, 30-D / 165-D)
+     • E5: Paired Linear Sequence GP                  • Structural Surfaces (E4b, 60-D SAP/A3D)
+     • E6: Paired Tanimoto Sequence GP                • Germline &amp; Subclass (E4a, 19-D)
+     • E7: Paired LOCK-GP (BLOSUM50)                               |
+                   |                                               |
+                   +-----------------------+-----------------------+
+                                           |
+                                           v
+       +==================== Advanced Modeling &amp; Fusion ====================+
+       |                                                                    |
+       |  1. Hybrid Product Kernel GP:                                      |
+       |     k_hybrid = k_seq(VH, VL) * k_physchem(X_phys)                  |
+       |                                                                    |
+       |  2. MultKAN (Multiplicative KAN 2.0):                              |
+       |     Cubic B-splines with biophysical product interaction nodes     |
+       |                                                                    |
+       |  3. Random Neighbor Score (RNS):                                   |
+       |     Unsupervised k-NN OOD abstention in ESM-2/AbLang2 space        |
+       |                                                                    |
+       +====================================================================+
+                                           |
+                                           v
+                       +---------------------------------------+
+                       |    Calibrated Developability Assays   |
+                       |    (HIC, Tm2, AC-SINS, PR_CHO, Titer) |
+                       +---------------------------------------+
+</code></pre></div></div> <h4 id="1-forensic-bug-resolution--metric-reconciliation">1. Forensic Bug Resolution &amp; Metric Reconciliation</h4> <ul> <li> <strong>The Upstream Subtype Swap</strong>: Auditing baseline discrepancies revealed a silent column swap in the processed dataset: <code class="language-plaintext highlighter-rouge">hc_subtype</code> held light-chain classes (<code class="language-plaintext highlighter-rouge">Kappa</code>, <code class="language-plaintext highlighter-rouge">Lambda</code>) while <code class="language-plaintext highlighter-rouge">lc_subtype</code> held heavy-chain subclasses (<code class="language-plaintext highlighter-rouge">IgG1</code>, <code class="language-plaintext highlighter-rouge">IgG2</code>, <code class="language-plaintext highlighter-rouge">IgG4</code>).</li> <li> <strong>Correction Impact</strong>: Canonicalizing subtype assignments dramatically resolved negative thermal stability predictions (<code class="language-plaintext highlighter-rouge">Tm2</code> correlation shifted from <strong>$-0.0587 \to +0.3247$</strong>) and lifted overall <code class="language-plaintext highlighter-rouge">E8_AbDevX</code> 5-assay mean Spearman correlation on Cluster-Isotype CV from **$\bar{\rho}<em>{\text{fold}} = 0.3621 \to \mathbf{0.4242}$** ($\rho</em>{\text{pooled}} = 0.3207 \to \mathbf{0.3951}$).</li> </ul> <h4 id="2-paired-sequence-lock-gp-e7_lock_gp">2. Paired Sequence LOCK-GP (<code class="language-plaintext highlighter-rouge">E7_LOCK_GP</code>)</h4> <ul> <li>Designed sequence kernels over AHo-aligned variable heavy ($L_H = 149$) and light ($L_L = 149$) chains ($L = 298$ aligned positions).</li> <li>Built positive-semidefinite BLOSUM50 embeddings $\boldsymbol{\phi}(a) \in \mathbb{R}^{21}$ via eigenvalue thresholding ($\mathbf{B} = \mathbf{V}\boldsymbol{\Lambda}^+\mathbf{V}^\top$).</li> <li>Implemented <strong>Locally Linear Correlation Kernel GP (<code class="language-plaintext highlighter-rouge">LOCK-GP</code>)</strong>, computing per-position correlation $c_\ell(S_i, S_j) = \frac{1 + C(S_{i,\ell}, S_{j,\ell})}{2}$ modulated by learnable local ($\gamma_{\text{loc}}$) and global ($\gamma_{\text{glob}}$) exponents and separate chain weights ($\sigma_{\text{VH}}^2, \sigma_{\text{VL}}^2$).</li> </ul> <h4 id="3-multiplicative-kolmogorovarnold-networks-multkan--kan-20">3. Multiplicative Kolmogorov–Arnold Networks (<code class="language-plaintext highlighter-rouge">MultKAN</code> / KAN 2.0)</h4> <ul> <li>Formulated <code class="language-plaintext highlighter-rouge">MultKAN</code> architectures with cubic B-spline bases ($k=3, G=3$) paired with multiplicative interaction nodes ($u = z_1 \times z_2$) operating on 8–12 domain-curated biophysical features per assay (e.g., Spatial Aggregation Propensity, Eisenberg hydrophobic moment, structural Fv charge symmetry $\text{SFvCSP}$, Aggrescan3D).</li> <li> <code class="language-plaintext highlighter-rouge">MultKAN</code> achieved the <strong>all-time best standalone performance on the held-out <code class="language-plaintext highlighter-rouge">GDPa3</code> benchmark</strong>: <strong>$\bar{\rho} = \mathbf{0.2556}$</strong> (compared to the baseline <code class="language-plaintext highlighter-rouge">0.1918</code>), with exceptional precision on polyreactivity (<code class="language-plaintext highlighter-rouge">PR_CHO</code> $\rho = 0.4108$, Precision@5 $= 1.00$).</li> </ul> <h4 id="4-random-neighbor-score-rns-for-selective-abstention">4. Random Neighbor Score (RNS) for Selective Abstention</h4> <ul> <li>Engineered an unsupervised out-of-distribution (OOD) score measuring $k$-NN overlap between query antibodies and synthetic randomized sequences in ESM-2 and AbLang2 latent spaces.</li> <li>When applied as a selective abstention filter on the held-out <code class="language-plaintext highlighter-rouge">GDPa3</code> benchmark, discarding the most uncertain $30\%$ of antibodies raised baseline correlation from <strong>$0.1918 \to \mathbf{0.2412}$</strong> ($+25.7\%$ relative improvement).</li> </ul> <h4 id="5-comprehensive-36-family-gaussian-process-regression-study">5. Comprehensive 36-Family Gaussian Process Regression Study</h4> <ul> <li>Evaluated 36 GP kernel formulations across conventional kernels, Automatic Relevance Determination (ARD), 5-group additive kernels (<code class="language-plaintext highlighter-rouge">GP_FeatureGroup_Additive</code>), CDR/Framework variance partitioning, and hybrid sequence $\times$ physicochemical product kernels (<code class="language-plaintext highlighter-rouge">GP_Ab_Hybrid_Product</code>).</li> <li>Hybrid sequence-physicochemical product GPs achieved the <strong>highest overall 5-assay correlation on <code class="language-plaintext highlighter-rouge">GDPa1</code> Cluster-Isotype CV</strong>: <strong>$\bar{\rho}<em>{\text{fold}} = \mathbf{0.4449}$ / $\rho</em>{\text{pooled}} = \mathbf{0.4315}$</strong>, demonstrating that continuous Gaussian Process priors effectively regularize sequence representations against out-of-distribution cluster shifts.</li> </ul> <hr> <h3 id="grand-benchmark-summary-5-assay-mean-spearman-rho">Grand Benchmark Summary: 5-Assay Mean Spearman $\rho$</h3> <table> <thead> <tr> <th style="text-align: left">Evaluation Protocol</th> <th style="text-align: center">Baseline <code class="language-plaintext highlighter-rouge">E8_AbDevX</code> <em>(Corrected)</em> </th> <th style="text-align: center">Best Standalone Model</th> <th style="text-align: center">Best Fused Stacking</th> <th style="text-align: center">Best Under Selective Abstention</th> </tr> </thead> <tbody> <tr> <td style="text-align: left"><strong><code class="language-plaintext highlighter-rouge">GDPa1</code> Cluster-Isotype 5-Fold CV</strong></td> <td style="text-align: center"> <code class="language-plaintext highlighter-rouge">0.4242</code> fold / <code class="language-plaintext highlighter-rouge">0.3951</code> pool</td> <td style="text-align: center"> <strong><code class="language-plaintext highlighter-rouge">0.4351</code> fold / <code class="language-plaintext highlighter-rouge">0.4056</code> pool</strong> (<code class="language-plaintext highlighter-rouge">Hybrid_Product_StrictPSD</code> GP)</td> <td style="text-align: center"> <strong><code class="language-plaintext highlighter-rouge">0.4449</code> fold / <code class="language-plaintext highlighter-rouge">0.4315</code> pool</strong> (<code class="language-plaintext highlighter-rouge">Fuse_HybridSeqPhys_Weighted</code>)</td> <td style="text-align: center">—</td> </tr> <tr> <td style="text-align: left"><strong><code class="language-plaintext highlighter-rouge">GDPa1</code> Hierarchical Cluster 5-Fold CV</strong></td> <td style="text-align: center"> <code class="language-plaintext highlighter-rouge">0.4148</code> fold / <code class="language-plaintext highlighter-rouge">0.3554</code> pool</td> <td style="text-align: center"> <strong><code class="language-plaintext highlighter-rouge">0.4143</code> fold / <code class="language-plaintext highlighter-rouge">0.3925</code> pool</strong> (<code class="language-plaintext highlighter-rouge">GP_Ab_Hybrid_Product</code>)</td> <td style="text-align: center"> <strong><code class="language-plaintext highlighter-rouge">0.4284</code> fold / <code class="language-plaintext highlighter-rouge">0.3727</code> pool</strong> (<code class="language-plaintext highlighter-rouge">Fuse_HybridSeqPhys_Stacking</code>)</td> <td style="text-align: center">—</td> </tr> <tr> <td style="text-align: left"><strong><code class="language-plaintext highlighter-rouge">GDPa1</code> Random 5-Fold CV</strong></td> <td style="text-align: center"> <code class="language-plaintext highlighter-rouge">0.4287</code> fold / <code class="language-plaintext highlighter-rouge">0.3992</code> pool</td> <td style="text-align: center"> <strong><code class="language-plaintext highlighter-rouge">0.4379</code> fold / <code class="language-plaintext highlighter-rouge">0.4315</code> pool</strong> (<code class="language-plaintext highlighter-rouge">GP_Ab_Hybrid_Product</code>)</td> <td style="text-align: center"> <strong><code class="language-plaintext highlighter-rouge">0.4517</code> fold / <code class="language-plaintext highlighter-rouge">0.4328</code> pool</strong> (<code class="language-plaintext highlighter-rouge">Fuse_FeatureGroupAdd_Weighted</code>)</td> <td style="text-align: center">—</td> </tr> <tr> <td style="text-align: left"><strong>Held-Out <code class="language-plaintext highlighter-rouge">GDPa3</code> External Benchmark ($N=80$)</strong></td> <td style="text-align: center"><code class="language-plaintext highlighter-rouge">0.1918</code></td> <td style="text-align: center"> <strong><code class="language-plaintext highlighter-rouge">0.2556</code></strong> (<code class="language-plaintext highlighter-rouge">MultKAN</code>, KAN 2.0)</td> <td style="text-align: center"> <strong><code class="language-plaintext highlighter-rouge">0.2093</code></strong> (<code class="language-plaintext highlighter-rouge">AbDevX + MultKAN</code>)</td> <td style="text-align: center"> <strong><code class="language-plaintext highlighter-rouge">0.2412</code></strong> (<code class="language-plaintext highlighter-rouge">RNS</code> @ 70% coverage)<br><strong><code class="language-plaintext highlighter-rouge">0.2249</code></strong> (<code class="language-plaintext highlighter-rouge">GP Posterior</code> @ 90% coverage)</td> </tr> </tbody> </table> <hr> <h3 id="best-per-assay-performance-highlights">Best Per-Assay Performance Highlights</h3> <ul> <li> <strong>Hydrophobicity (<code class="language-plaintext highlighter-rouge">HIC</code>)</strong>: <code class="language-plaintext highlighter-rouge">0.5196</code> fold / <code class="language-plaintext highlighter-rouge">0.5128</code> pool on Cluster-Isotype CV (<code class="language-plaintext highlighter-rouge">GP_Ab_Hybrid_Additive</code>), reaching <strong><code class="language-plaintext highlighter-rouge">0.5444</code></strong> on held-out <code class="language-plaintext highlighter-rouge">GDPa3</code> ($0.5582$ under 90% confidence retention).</li> <li> <strong>Thermal Stability (<code class="language-plaintext highlighter-rouge">Tm2</code>)</strong>: <code class="language-plaintext highlighter-rouge">0.4188</code> fold / <code class="language-plaintext highlighter-rouge">0.3297</code> pool on Cluster-Isotype CV (<code class="language-plaintext highlighter-rouge">Subtype_5feat_RidgeCV</code>), reaching <strong><code class="language-plaintext highlighter-rouge">0.3567</code></strong> on held-out <code class="language-plaintext highlighter-rouge">GDPa3</code>.</li> <li> <strong>Self-Association (<code class="language-plaintext highlighter-rouge">AC-SINS pH 7.4</code>)</strong>: <code class="language-plaintext highlighter-rouge">0.4755</code> pool on Cluster-Isotype CV (<code class="language-plaintext highlighter-rouge">GP_TabPCA20_Matern32_plus_RQ</code>) and <strong><code class="language-plaintext highlighter-rouge">0.4959</code></strong> on Cluster CV.</li> <li> <strong>Polyreactivity (<code class="language-plaintext highlighter-rouge">PR_CHO</code>)</strong>: <strong><code class="language-plaintext highlighter-rouge">0.6198</code> fold / <code class="language-plaintext highlighter-rouge">0.6143</code> pool</strong> on Cluster-Isotype CV (<code class="language-plaintext highlighter-rouge">Fuse_HybridSeqPhys_Weighted</code>), with <strong><code class="language-plaintext highlighter-rouge">0.4108</code></strong> (Precision@5 $= 1.00$) on held-out <code class="language-plaintext highlighter-rouge">GDPa3</code>.</li> <li> <strong>Expression Yield (<code class="language-plaintext highlighter-rouge">Titer</code>)</strong>: <code class="language-plaintext highlighter-rouge">0.3063</code> fold on Cluster-Isotype CV (<code class="language-plaintext highlighter-rouge">AbDevX + MultKAN</code>) and <strong><code class="language-plaintext highlighter-rouge">0.4030</code></strong> on Random CV.</li> </ul> <hr> <h3 id="technical-stack--verification">Technical Stack &amp; Verification</h3> <ul> <li> <strong>Languages &amp; Libraries</strong>: Python 3.12, GPyTorch, PyTorch, scikit-learn, SciPy, NumPy, LightGBM, Pandas.</li> <li> <strong>Reproducibility</strong>: Complete self-contained specification (<code class="language-plaintext highlighter-rouge">ABDEVX_COMPLETE_PROJECT_REPLICATION_AND_RESULTS_DOSSIER.md</code>), deterministic cross-validation splits, exact Holm–Bonferroni / Benjamini–Hochberg FDR multiple-testing corrections, and cross-conformal uncertainty calibration.</li> </ul> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Trishal Adabala. © Trishal Adabala. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Last updated: November 03, 2026. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-research",
+          title: "research",
+          description: "Academic research in continuous generative flows, antibody developability, high-dimensional representation geometry, and whole-brain connectomics.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/research/";
+          },
+        },{id: "nav-projects",
+          title: "projects",
+          description: "Internship engineering projects and software systems.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/projects/";
+          },
+        },{id: "nav-cv",
+          title: "CV",
+          description: "Curriculum Vitae of Trishal Adabala highlighting education, research &amp; industry experience, technical projects, honors, and coursework.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/cv/";
+          },
+        },{id: "post-a-post-with-marimo-snippets",
+        
+          title: "a post with marimo snippets",
+        
+        description: "running Python in the browser with marimo",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/marimo/";
+          
+        },
+      },{id: "post-a-post-with-plotly-js",
+        
+          title: "a post with plotly.js",
+        
+        description: "this is what included plotly.js code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/plotly/";
+          
+        },
+      },{id: "post-a-post-with-image-galleries",
+        
+          title: "a post with image galleries",
+        
+        description: "this is what included image galleries could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/photo-gallery/";
+          
+        },
+      },{id: "post-google-gemini-updates-flash-1-5-gemma-2-and-project-astra",
+        
+          title: 'Google Gemini updates: Flash 1.5, Gemma 2 and Project Astra <svg width="1.2rem" height="1.2rem" top=".5rem" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M17 13.5v6H5v-12h6m3-3h6v6m0-6-9 9" class="icon_svg-stroke" stroke="#999" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg>',
+        
+        description: "We’re sharing updates across our Gemini family of models and a glimpse of Project Astra, our vision for the future of AI assistants.",
+        section: "Posts",
+        handler: () => {
+          
+            window.open("https://blog.google/technology/ai/google-gemini-update-flash-ai-assistant-io-2024/", "_blank");
+          
+        },
+      },{id: "post-a-post-with-tabs",
+        
+          title: "a post with tabs",
+        
+        description: "this is what included tabs in a post could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/tabs/";
+          
+        },
+      },{id: "post-a-post-with-typograms",
+        
+          title: "a post with typograms",
+        
+        description: "this is what included typograms code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/typograms/";
+          
+        },
+      },{id: "post-a-post-that-can-be-cited",
+        
+          title: "a post that can be cited",
+        
+        description: "this is what a post that can be cited looks like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/post-citation/";
+          
+        },
+      },{id: "post-a-post-with-pseudo-code",
+        
+          title: "a post with pseudo code",
+        
+        description: "this is what included pseudo code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/pseudocode/";
+          
+        },
+      },{id: "post-a-post-with-code-diff",
+        
+          title: "a post with code diff",
+        
+        description: "this is how you can display code diffs",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/code-diff/";
+          
+        },
+      },{id: "post-a-post-with-advanced-image-components",
+        
+          title: "a post with advanced image components",
+        
+        description: "this is what advanced image components could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/advanced-images/";
+          
+        },
+      },{id: "post-a-post-with-vega-lite",
+        
+          title: "a post with vega lite",
+        
+        description: "this is what included vega lite code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/vega-lite/";
+          
+        },
+      },{id: "post-a-post-with-geojson",
+        
+          title: "a post with geojson",
+        
+        description: "this is what included geojson code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/geojson-map/";
+          
+        },
+      },{id: "post-a-post-with-echarts",
+        
+          title: "a post with echarts",
+        
+        description: "this is what included echarts code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/echarts/";
+          
+        },
+      },{id: "post-a-post-with-chart-js",
+        
+          title: "a post with chart.js",
+        
+        description: "this is what included chart.js code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/chartjs/";
+          
+        },
+      },{id: "post-a-post-with-tikzjax",
+        
+          title: "a post with TikZJax",
+        
+        description: "this is what included TikZ code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/tikzjax/";
+          
+        },
+      },{id: "post-a-post-with-bibliography",
+        
+          title: "a post with bibliography",
+        
+        description: "an example of a blog post with bibliography",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/post-bibliography/";
+          
+        },
+      },{id: "post-a-post-with-jupyter-notebook",
+        
+          title: "a post with jupyter notebook",
+        
+        description: "an example of a blog post with jupyter notebook",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/jupyter-notebook/";
+          
+        },
+      },{id: "post-a-post-with-custom-blockquotes",
+        
+          title: "a post with custom blockquotes",
+        
+        description: "an example of a blog post with custom blockquotes",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/custom-blockquotes/";
+          
+        },
+      },{id: "post-a-post-with-table-of-contents-on-a-sidebar",
+        
+          title: "a post with table of contents on a sidebar",
+        
+        description: "an example of a blog post with table of contents on a sidebar",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/sidebar-table-of-contents/";
+          
+        },
+      },{id: "post-a-post-with-audios",
+        
+          title: "a post with audios",
+        
+        description: "this is what included audios could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/audios/";
+          
+        },
+      },{id: "post-a-post-with-videos",
+        
+          title: "a post with videos",
+        
+        description: "this is what included videos could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/videos/";
+          
+        },
+      },{id: "post-displaying-beautiful-interactive-tables",
+        
+          title: "displaying beautiful interactive tables",
+        
+        description: "an example of how to use interactive tables in al-folio",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/tables/";
+          
+        },
+      },{id: "post-a-post-with-table-of-contents",
+        
+          title: "a post with table of contents",
+        
+        description: "an example of a blog post with table of contents",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/table-of-contents/";
+          
+        },
+      },{id: "post-a-post-with-giscus-comments",
+        
+          title: "a post with giscus comments",
+        
+        description: "an example of a blog post with giscus comments",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2022/giscus-comments/";
+          
+        },
+      },{id: "post-یک-نوشتهٔ-راست-چین",
+        
+          title: "یک نوشتهٔ راست‌چین",
+        
+        description: "نمونه‌ای از پشتیبانی زبان‌های راست‌چین",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2022/rtl/";
+          
+        },
+      },{id: "post-displaying-external-posts-on-your-al-folio-blog",
+        
+          title: 'Displaying External Posts on Your al-folio Blog <svg width="1.2rem" height="1.2rem" top=".5rem" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M17 13.5v6H5v-12h6m3-3h6v6m0-6-9 9" class="icon_svg-stroke" stroke="#999" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg>',
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.open("https://medium.com/@al-folio/displaying-external-posts-on-your-al-folio-blog-b60a1d241a0a?source=rss-17feae71c3c4------2", "_blank");
+          
+        },
+      },{id: "post-a-post-with-redirect",
+        
+          title: "a post with redirect",
+        
+        description: "you can also redirect to assets like pdf",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/assets/pdf/example_pdf.pdf";
+          
+        },
+      },{id: "post-a-post-with-diagrams",
+        
+          title: "a post with diagrams",
+        
+        description: "an example of a blog post with diagrams",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2021/diagrams/";
+          
+        },
+      },{id: "post-a-distill-style-blog-post",
+        
+          title: "a distill-style blog post",
+        
+        description: "an example of a distill-style blog post and main elements",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2021/distill/";
+          
+        },
+      },{id: "post-a-post-with-twitter",
+        
+          title: "a post with twitter",
+        
+        description: "an example of a blog post with twitter",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2020/twitter/";
+          
+        },
+      },{id: "post-a-post-with-disqus-comments",
+        
+          title: "a post with disqus comments",
+        
+        description: "an example of a blog post with disqus comments",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2015/disqus-comments/";
+          
+        },
+      },{id: "post-a-post-with-math",
+        
+          title: "a post with math",
+        
+        description: "an example of a blog post with some math",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2015/math/";
+          
+        },
+      },{id: "post-a-post-with-code",
+        
+          title: "a post with code",
+        
+        description: "an example of a blog post with some code",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2015/code/";
+          
+        },
+      },{id: "post-a-post-with-images",
+        
+          title: "a post with images",
+        
+        description: "this is what included images could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2015/images/";
+          
+        },
+      },{id: "post-a-post-with-formatting-and-links",
+        
+          title: "a post with formatting and links",
+        
+        description: "march &amp; april, looking forward to summer",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2015/formatting-and-links/";
+          
+        },
+      },{id: "books-the-godfather",
+          title: 'The Godfather',
+          description: "",
+          section: "Books",handler: () => {
+              window.location.href = "/books/the_godfather/";
+            },},{id: "news-elected-to-the-pulse-organizing-committee-to-lead-competitive-programming-contests-and-conduct-technical-workshops-on-algorithms-and-data-structures",
+          title: 'Elected to the PULSE organizing committee to lead competitive programming contests and conduct...',
+          description: "",
+          section: "News",},{id: "news-started-as-a-software-development-intern-cpp-3-at-hewlett-packard-enterprise-hpe-working-on-extending-hpe-swarm-learning-to-scikit-learn-for-decentralized-privacy-preserving-training",
+          title: 'Started as a Software Development Intern (CPP-3) at Hewlett Packard Enterprise (HPE), working...',
+          description: "",
+          section: "News",},{id: "news-awarded-the-dean-s-list-at-shiv-nadar-university-for-outstanding-academic-performance-in-spring-2026-cumulative-gpa-9-14-10-0",
+          title: 'Awarded the Dean’s List at Shiv Nadar University for outstanding academic performance in...',
+          description: "",
+          section: "News",},{id: "projects-operating-point-non-equivalence-in-continuous-language-flows-acl-2027",
+          title: 'Operating-Point Non-Equivalence in Continuous Language Flows (ACL 2027)',
+          description: "Same Perplexity, Same Entropy, Different Text: Investigating whether standard (Gen-PPL, H_ps, NFE) operating points uniquely determine continuous flow generation across 280 factorial runs.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/continuous-flows/";
+            },},{id: "projects-abdev-x-therapeutic-antibody-developability-with-paired-sequence-gaussian-processes",
+          title: 'AbDev-X: Therapeutic Antibody Developability with Paired-Sequence Gaussian Processes',
+          description: "Predicting clinical antibody developability across 5 biophysical assays using paired-sequence Gaussian processes, multiplicative Kolmogorov-Arnold networks, and OOD uncertainty triage.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/abdevx/";
+            },},{id: "projects-quantppi-data-oblivious-vector-quantization-for-protein-embeddings",
+          title: 'QuantPPI: Data-Oblivious Vector Quantization for Protein Embeddings',
+          description: "Surpassing trained FAISS OPQ on 1280-D protein embeddings using high-dimensional geometry, analytical Bussgang de-attenuation, multi-radix codecs, and an interactive 3D studio.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/quantppi/";
+            },},{id: "projects-vectorwing-whole-brain-drosophila-connectomics-amp-chemospecific-feedback",
+          title: 'VectorWing: Whole-Brain Drosophila Connectomics &amp;amp; Chemospecific Feedback',
+          description: "Computational biology pipeline analyzing 16.8M synapses from the FlyWire whole-brain connectome, revealing chemospecific recurrent inhibition and steering dynamics.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/connectomics/";
+            },},{id: "projects-decentralized-swarm-learning-with-scikit-learn",
+          title: 'Decentralized Swarm Learning with Scikit-Learn',
+          description: "Extending HPE Swarm Learning to classical estimators for privacy-preserving decentralized model training.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/5_swarm_learning/";
+            },},{id: "projects-dolos-plagiarism-detection-amp-assessment-engine",
+          title: 'Dolos Plagiarism Detection &amp;amp; Assessment Engine',
+          description: "Integration of AST-based Dolos plagiarism detection into DMOJ with anti-cheating penalty mechanics.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/6_dmoj_assessment/";
+            },},{id: "projects-introspect-ml-observability-amp-model-evaluation-platform",
+          title: 'Introspect - ML Observability &amp;amp; Model Evaluation Platform',
+          description: "Framework-agnostic observability and evaluation platform for autoregressive and diffusion models with OpenTelemetry.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/7_introspect/";
+            },},{id: "projects-cartoon-to-realistic-image-translation-using-cyclegan",
+          title: 'Cartoon-to-Realistic Image Translation using CycleGAN',
+          description: "Unpaired image-to-image translation pipeline in PyTorch for photorealistic synthesis from artistic cartoons.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/8_cyclegan/";
+            },},{id: "projects-supermarket-pos-amp-inventory-management-system",
+          title: 'Supermarket POS &amp;amp; Inventory Management System',
+          description: "Modular desktop retail automation system using JavaFX, MySQL, JDBC, and test-driven development with JUnit and Mockito.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/9_supermarket/";
+            },},{id: "teachings-data-science-fundamentals",
+          title: 'Data Science Fundamentals',
+          description: "This course covers the foundational aspects of data science, including data collection, cleaning, analysis, and visualization. Students will learn practical skills for working with real-world datasets.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teachings/data-science-fundamentals/";
+            },},{id: "teachings-introduction-to-machine-learning",
+          title: 'Introduction to Machine Learning',
+          description: "This course provides an introduction to machine learning concepts, algorithms, and applications. Students will learn about supervised and unsupervised learning, model evaluation, and practical implementations.",
+          section: "Teachings",handler: () => {
+              window.location.href = "/teachings/introduction-to-machine-learning/";
+            },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%61%64%61%62%61%6C%61%74%72%69%73%68%61%6C@%67%6D%61%69%6C.%63%6F%6D", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/trishaladabala", "_blank");
+        },
+      },{
+        id: 'social-linkedin',
+        title: 'LinkedIn',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.linkedin.com/in/trishaladabala", "_blank");
+        },
+      },{
+        id: 'social-cv',
+        title: 'CV',
+        section: 'Socials',
+        handler: () => {
+          window.open("/assets/pdf/example_pdf.pdf", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> <script defer src="/assets/al_email_protect/js/email-protect.js"></script> </body> </html>
