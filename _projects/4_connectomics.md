@@ -2,6 +2,7 @@
 layout: page
 title: "VectorWing: Whole-Brain Drosophila Connectomics & Chemospecific Feedback"
 description: Computational biology pipeline analyzing 16.8M synapses from the FlyWire whole-brain connectome, revealing chemospecific recurrent inhibition and steering dynamics.
+permalink: /projects/connectomics/
 importance: 4
 category: research
 related_publications: false

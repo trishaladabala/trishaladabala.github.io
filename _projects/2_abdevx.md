@@ -2,6 +2,7 @@
 layout: page
 title: "AbDev-X: Therapeutic Antibody Developability with Paired-Sequence Gaussian Processes"
 description: Predicting clinical antibody developability across 5 biophysical assays using paired-sequence Gaussian processes, multiplicative Kolmogorov-Arnold networks, and OOD uncertainty triage.
+permalink: /projects/abdevx/
 importance: 2
 category: research
 related_publications: false

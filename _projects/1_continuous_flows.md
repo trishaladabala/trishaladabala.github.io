@@ -2,6 +2,7 @@
 layout: page
 title: "Operating-Point Non-Equivalence in Continuous Language Flows (ACL 2027)"
 description: "Same Perplexity, Same Entropy, Different Text: Investigating whether standard (Gen-PPL, H_ps, NFE) operating points uniquely determine continuous flow generation across 280 factorial runs."
+permalink: /projects/continuous-flows/
 importance: 1
 category: research
 related_publications: false
