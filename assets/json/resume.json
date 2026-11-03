@@ -5,7 +5,7 @@
     "image": "",
     "email": "adabalatrishal@gmail.com",
     "phone": "+91-8500155577",
-    "summary": "B.Tech student in Computer Science and Engineering with a specialization in AI/ML and a minor in Mathematics at Shiv Nadar University (GPA: 9.14/10). Undergraduate researcher working on continuous-latent language flows, high-dimensional vector quantization, and computational biology & connectomics. Experienced in decentralized machine learning (HPE Swarm Learning) and systems engineering. Actively seeking PhD and Master's opportunities in Computer Science and Artificial Intelligence.",
+    "summary": "B.Tech student in Computer Science and Engineering with a specialization in AI/ML and a minor in Mathematics at Shiv Nadar University (GPA: 9.14/10). Undergraduate researcher working on continuous-latent language flows, therapeutic antibody developability, high-dimensional vector quantization, and whole-brain connectomics. Experienced in decentralized machine learning (HPE Swarm Learning) and systems engineering. Actively seeking PhD and Master's opportunities in Computer Science and Artificial Intelligence.",
     "location": {
       "city": "Greater Noida",
       "region": "Delhi NCR",
@@ -106,32 +106,53 @@
   ],
   "projects": [
     {
-      "name": "Continuous Language Flows & Trajectory Retraction (ELF)",
-      "description": "Continuous-latent language flow matching, geometric manifold retraction, and causal local time clocks.",
+      "name": "Continuous Language Flows & Sampler Control Geometry (ACL 2027)",
+      "description": "Investigating sampler control geometry and operating-point non-equivalence in continuous-latent flow language models.",
       "highlights": [
-        "Discovered continuous flows outperform discrete masked diffusion (MDLM) by 13.5x in perplexity (13.49 vs 181.86 dedup-PPL) while running 3.2x faster at 4 steps.",
+        "Proved operating-point non-equivalence of classifier-free guidance (SC-CFG) and stochastic temperature (gamma) across 280 factorial runs on ELF-B/M/L and MDLM; identical (Gen-PPL, H_ps, NFE) triplets produce fundamentally divergent text.",
+        "Conducted two-way ANOVA demonstrating SC-CFG controls local 4-gram repetition (66.1%-98.3% variance) while gamma controls cross-sample corpus diversity (85.2%-91.1% variance) and MAUVE (92.5%).",
+        "Replicated findings across 6 matched-metric pairs under Satterthwaite-Welch t-tests with Holm-Bonferroni correction (p < 0.001) and TOST equivalence testing.",
         "Formulated Encoder-Cycle Projection (ECP), an idempotent manifold retraction operator (Pi = E o D) cutting 16-step ODE perplexity by 10.7% and boosting MAUVE coherence by +53.9%.",
-        "Mathematically proved the Wave-Step Resolution Theorem (N_eff = N/W) establishing the lower bound N >= 2W steps to avoid unigram entropy collapse.",
-        "Developed Clock-Modulated Encoder (CME) masking, reducing contextual noise leakage by >60% and enabling 100.0% hierarchical key-value copy accuracy.",
-        "Implemented Progressive Halving trajectory distillation, achieving 22.13 chrF translation in a single 2.2 ms step (5.1x over 1-step teacher)."
+        "Mathematically proved the Wave-Step Resolution Theorem (N_eff = N/W), showing continuous flows outperform discrete masked diffusion (MDLM) by 13.5x in perplexity."
       ],
       "keywords": [
         "Continuous Flow Matching",
-        "Normalizing Flows",
-        "Manifold Retraction",
-        "Trajectory Distillation",
-        "PyTorch",
-        "Hugging Face"
+        "Diffusion Models",
+        "Sampler Control Geometry",
+        "Non-Autoregressive NLP",
+        "Two-Way ANOVA",
+        "PyTorch"
+      ]
+    },
+    {
+      "name": "AbDev-X: Therapeutic Antibody Developability with Paired-Sequence GPs",
+      "description": "Machine learning framework for multi-assay clinical antibody developability prediction using paired-sequence biophysical priors.",
+      "highlights": [
+        "Built paired-sequence Gaussian Process models (LOCK-GP) and Kolmogorov-Arnold Networks (MultKAN 2.0) across 5 clinical assays (HIC, Tm2, AC-SINS, PR_CHO, Titer) on GDPa1 (N=246) and GDPa3 (N=80).",
+        "Identified and resolved an upstream heavy-light chain subtype feature swap bug, recovering Tm2 cross-validation Spearman rho from -0.0587 to +0.3247 and lifting 5-assay mean rho from 0.3621 to 0.4242.",
+        "Implemented MultKAN 2.0 with B-spline activation functions, achieving the top held-out GDPa3 generalization (rho = 0.2556) across the benchmark.",
+        "Formulated Residual Non-Conformity Score (RNS) selective abstention, boosting out-of-distribution GDPa3 Spearman correlation from rho = 0.1650 to 0.2412 at 70% coverage.",
+        "Designed a paired heavy-light cross-attention covariance kernel in GPyTorch, outperforming uncoupled single-chain baselines by +0.062 mean rho."
+      ],
+      "keywords": [
+        "Computational Biology",
+        "Antibody Engineering",
+        "Gaussian Processes",
+        "Kolmogorov-Arnold Networks",
+        "GPyTorch",
+        "Conformal Prediction",
+        "PyTorch"
       ]
     },
     {
       "name": "QuantPPI: Data-Oblivious Vector Quantization for Protein Embeddings",
-      "description": "High-dimensional geometry and signal processing framework for 1280-D protein language model embeddings (ESM-2).",
+      "description": "High-dimensional geometry, signal quantization, and SIMD acceleration for 1280-D protein language model embeddings (ESM-2).",
       "highlights": [
-        "Identified extreme coordinate anisotropy (PR/D = 0.0012, >83% energy in <= 4 rogue coordinates) causing a 2.58x orthogonal noise-inflation penalty.",
+        "Identified extreme coordinate anisotropy (PR/D = 0.0012, >83% energy in <= 4 rogue coordinates) in ESM-2 embeddings, proving orthogonal transforms cause a 2.58x noise-inflation penalty.",
         "Formulated and proved Support-Orthogonal Bleed Elimination and Analytical Bussgang De-Attenuation theorems, restoring unbiased inner products with zero data calibration.",
-        "Engineered multi-radix Lloyd-Max codecs (168 B - 488 B) surpassing trained FAISS OPQ (0.9993 vs 0.9968 Recall@20@30; 0.9600 vs 0.9180 Top-1 Recall) with 2x lower memory and zero training time.",
-        "Implemented high-performance Asymmetric Distance Computation in C with ARM NEON SIMD vectorization (0.35 ms/query, 234k vectors/sec)."
+        "Engineered multi-radix Lloyd-Max codecs (168 B - 488 B) and spherical E8 lattices surpassing trained FAISS OPQ (0.9993 vs 0.9968 Recall@20@30; 0.9600 vs 0.9180 Top-1 Recall) with 2x lower RAM and zero training time.",
+        "Implemented high-performance Asymmetric Distance Computation in C with ARM NEON SIMD vectorization (0.35 ms/query, 234k vectors/sec).",
+        "Engineered an end-to-end reproducible research platform with 420 automated unit tests and an interactive Next.js / Mol* 3D macromolecular web studio."
       ],
       "keywords": [
         "High-Dimensional Geometry",
@@ -139,14 +160,15 @@
         "Protein Language Models",
         "Bussgang Theorem",
         "C",
-        "ARM NEON SIMD"
+        "ARM NEON SIMD",
+        "Mol* 3D"
       ]
     },
     {
       "name": "VectorWing: Whole-Brain Drosophila Connectomics",
-      "description": "Computational biology pipeline analyzing 16.8M synapses from the FlyWire whole-brain connectome, revealing chemospecific recurrent inhibition and steering dynamics.",
+      "description": "Computational neurobiology pipeline analyzing 16.8M synapses from the FlyWire FAFB v783 dataset.",
       "highlights": [
-        "Built an out-of-core pipeline processing 16.8M synapses under a strict <380 MB RAM ceiling on commodity hardware.",
+        "Engineered an out-of-core pipeline processing 16.8M synapses from whole-brain electron microscopy under a strict <380 MB RAM ceiling on commodity hardware.",
         "Dissected null models in connectomics, discovering that edge-swapping collapses physical reciprocity by 4.61x; designed degree-stratified conditional permutation models to isolate true chemospecific preferences.",
         "Isolated a true +20.6% to +31.8% GABA-GABA excess in the Ellipsoid Body heading compass (Z > +13, p = 0.0005) mapping 88.2% to homotypic ring neurons.",
         "Discovered a 2.53x to 5.92x heterotypic ACh <-> GABA reciprocity inversion in the Fan-Shaped Body with 100% strict directional chemical polarity (554 dyads, p < 0.001).",
@@ -246,17 +268,20 @@
         "High-Dimensional Probability",
         "Signal Quantization (Lloyd-Max, Bussgang's Theorem)",
         "Spectral Anisotropy",
+        "Gaussian Processes & Covariance Operators",
         "Differential Equations & Dynamical Systems",
-        "Non-Parametric Statistics (Bootstrap, MCMC, FDR Control)"
+        "Non-Parametric Statistics (Bootstrap, TOST Equivalence, ANOVA, Holm-Bonferroni, Conformal Non-Conformity)"
       ]
     },
     {
       "name": "Machine Learning & Frameworks",
       "keywords": [
         "PyTorch",
-        "Hugging Face Transformers",
+        "GPyTorch",
+        "Kolmogorov-Arnold Networks (MultKAN)",
         "Continuous Flow Matching",
         "Diffusion Models",
+        "Hugging Face Transformers",
         "Scikit-Learn",
         "FAISS",
         "NumPy",
@@ -266,8 +291,9 @@
     {
       "name": "Computational Biology & Neuroinformatics",
       "keywords": [
-        "Protein Language Models (ESM-2, ProtT5)",
-        "Structural Bioinformatics",
+        "Protein Language Models (ESM-2, ProtT5, SaProt)",
+        "Antibody Developability & Biophysical Priors (HIC, Tm2, AC-SINS, CHO Titer)",
+        "Structural Bioinformatics (SCOPe ASTRAL-40, Swiss-Prot, PDB)",
         "FlyWire Whole-Brain Connectome Analysis",
         "Neural Circuit Dynamics"
       ]
@@ -281,7 +307,8 @@
         "C++",
         "SQL",
         "Bash",
-        "Apache Arrow / PyArrow IPC"
+        "Apache Arrow / PyArrow IPC",
+        "Next.js / TypeScript"
       ]
     },
     {
@@ -294,7 +321,7 @@
         "LaTeX",
         "GitHub Actions",
         "OpenTelemetry",
-        "Cairo"
+        "Mol* (3D Structural Rendering)"
       ]
     }
   ],

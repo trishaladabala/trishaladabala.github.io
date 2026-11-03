@@ -2,7 +2,7 @@
 layout: page
 title: Cartoon-to-Realistic Image Translation using CycleGAN
 description: Unpaired image-to-image translation pipeline in PyTorch for photorealistic synthesis from artistic cartoons.
-importance: 3
+importance: 2
 category: software engineering & systems
 related_publications: false
 ---

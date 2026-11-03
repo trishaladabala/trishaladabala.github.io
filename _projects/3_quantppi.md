@@ -1,8 +1,8 @@
 ---
 layout: page
 title: "QuantPPI: Data-Oblivious Vector Quantization for Protein Embeddings"
-description: Beating trained FAISS OPQ on 1280-D protein language model embeddings with high-dimensional geometry and zero calibration data.
-importance: 2
+description: "Surpassing trained FAISS OPQ on 1280-D protein embeddings using high-dimensional geometry, analytical Bussgang de-attenuation, multi-radix codecs, and an interactive 3D studio."
+importance: 3
 category: research
 related_publications: false
 ---
@@ -30,7 +30,7 @@ This $2.6\times$ noise inflation drowns out fine-grained biological signals sepa
 
 ---
 
-### The Theoretical Solution: The Three Pillars
+### The Theoretical Solution: Core Innovations
 
 ```
    Input Vector x (||x|| = 1)
@@ -52,28 +52,28 @@ This $2.6\times$ noise inflation drowns out fine-grained biological signals sepa
    • Theorem 2 (Bussgang De-Attenuation): Restores unbiased inner products via beta* = 1 / rho_Q.
 ```
 
-#### Pillar 1: Disjoint Split & Zero-Overhead Norm Recovery
+#### 1. Disjoint Split & Zero-Overhead Norm Recovery
 We dynamically isolate the top-$k$ ($k \in \{2, 4\}$) outlier coordinates per vector ($x_\parallel$), leaving a quiet residual trunk ($z$). Because protein embeddings are unit-normalized ($\|x\|_2^2 = \|x_\parallel\|_2^2 + \|z\|_2^2 = 1$), the decoder recovers the Euclidean norm of the trunk with **zero wire bytes**:
 $$\|z\|_2 = \sqrt{\max\left(1 - \sum_{m \in S} v_m^2, \; 0\right)}$$
 
-#### Pillar 2: Theorem 1 (Support-Orthogonal Bleed Elimination)
+#### 2. Theorem 1: Support-Orthogonal Bleed Elimination
 Even though the true trunk $z$ is strictly zero on outlier indices $S$, rotating, quantizing, and back-rotating ($R^\top \hat{u}$) injects random quantization noise back onto $S$. Multiplying these noisy coordinates by the query's own spikes degrades ranking.
 - **Theorem 1** establishes an algebraic identity that projects out this noise at index-build time:
   $$\tilde{v}_{i,m} \triangleq v_{i,m} - \|z_i\|_2 (R^\top \tilde{u}_i)_m$$
 This precomputes the correction directly into stored outlier values, enabling query-time search in $O(ND + Nk)$ time with zero bleed noise.
 
-#### Pillar 3: Theorem 2 (Analytical Bussgang De-Attenuation)
+#### 3. Theorem 2: Analytical Bussgang De-Attenuation
 Quantizing Gaussian coordinates shrinks their dot-product correlation with the query by a factor $\rho_Q < 1$. Leaving this uncorrected under-weights the biological trunk relative to the FP16 outliers.
 - **Theorem 2** derives the exact closed-form scalar multiplier $\beta_Q^* = 1/\rho_Q$ from Bussgang's Theorem for Gaussian processes (e.g., $\beta_1^* = 1.2533$ for 1-bit; $\beta_5^* = 1.0425$ for quinary), restoring an exact, unbiased dot-product estimator without requiring any training data.
 
----
-
-### Codec Engineering & Multi-Radix Bit-Packing
-
-To eliminate padding bits without wasting storage, I implemented custom lossless multi-radix bit-packing formats:
-- **Radix-5 Quinary (`382 B`)**: Every 3 quinary symbols pack bijectively into 7 bits ($5^3 = 125 < 128 = 2^7$). 1280 dimensions pack into $374\text{ B}$ trunk $+ 8\text{ B}$ outliers = **382 B/vec**.
-- **Radix-6 Senary (`432 B`)**: Every 5 senary symbols pack into 13 bits ($6^5 = 7{,}776 < 8{,}192 = 2^{13}$). 1280 dimensions divide into 256 exact quintuplets $\implies 416\text{ B}$ trunk $+ 16\text{ B}$ outliers = **432 B/vec** (zero padding).
-- **3-Bit Lloyd-Max (`488 B`)**: 8 symbols in 3 bytes ($480\text{ B}$ trunk $+ 8\text{ B}$ outliers) = **488 B/vec**.
+#### 4. Advanced Multi-Radix Codecs & Lattice Codebooks
+- **Lossless Multi-Radix Packing**:
+  - **Radix-5 Quinary (`382 B`)**: Packs every 3 quinary symbols bijectively into 7 bits ($5^3 = 125 < 128 = 2^7$). 1280 dimensions pack into $374\text{ B}$ trunk $+ 8\text{ B}$ outliers = **382 B/vec**.
+  - **Radix-6 Senary (`432 B`)**: Packs every 5 senary symbols into 13 bits ($6^5 = 7{,}776 < 8{,}192 = 2^{13}$). 1280 dimensions divide into 256 exact quintuplets $\implies 416\text{ B}$ trunk $+ 16\text{ B}$ outliers = **432 B/vec** (zero padding).
+  - **3-Bit Lloyd-Max (`488 B`)**: 8 symbols in 3 bytes ($480\text{ B}$ trunk $+ 8\text{ B}$ outliers) = **488 B/vec**.
+- **Score-Preserving Common-Mode Factorization (SCMF)**: Factorizes common-mode background energy using analytical bases (DCT/Walsh) and PLM LayerNorm affine representations ($N_{\text{cal}}=0$).
+- **Spherical $E_8 / D_4$ Lattice Quantization**: 256-codeword unit spherical root-shell codebook with gain-shape decoupling and LUT-ADC.
+- **Ternary Dead-Zone & Multi-Stage Codecs**: Packed bitplane / 5-trits-per-byte dead-zone quantization at 256 B.
 
 ---
 
@@ -96,4 +96,14 @@ Evaluated on canonical **SCOPe ASTRAL-40** ($N=15{,}166$, $Q=500$, ESM-2 650M, $
 1. **Surpasses Trained FAISS OPQ**: The 3-bit Hybrid achieves **`0.9993` Recall@20@30** (vs. OPQ's `0.9968`, paired bootstrap $p = 4.0 \times 10^{-8}$) and **`0.9600` Top-1 Recall** (+4.2% to +6.2% over OPQ).
 2. **Half the Amortized Memory**: At $N=15\text{k}$, OPQ consumes `787.3 B/vec` due to its 8.26 MB codebook. Our Quinary codec consumes only **`382 B/vec` ($2.06\times$ reduction)**.
 3. **Zero Training Latency**: Encodes streaming vectors on the fly with **0.0 seconds of training**, eliminating the 4.7-minute $k$-means calibration phase of OPQ.
-4. **SIMD Kernel Acceleration**: Implemented Asymmetric Distance Computation in **C with ARM NEON SIMD vectorization**, achieving $0.35\text{ ms/query}$ latency and $234{,}000\text{ vectors/sec}$ encoding throughput.
+4. **Biological Ground Truth**: Preserved remote structural homology across SCOPe Superfamily (mAP `0.2340` vs. OPQ `0.2317`) and Gene Ontology annotation transfer.
+5. **C / ARM NEON SIMD Kernels**: Engineered hardware-accelerated Asymmetric Distance Computation kernels in C with ARM NEON SIMD vectorization, achieving $0.35\text{ ms/query}$ latency and $234{,}000\text{ vectors/sec}$ encoding throughput.
+
+---
+
+### Interactive Web Studio & Open Deployment
+
+To make high-dimensional vector quantization accessible and reproducible, I developed and deployed the **QuantPPI Studio**:
+- **Full-Stack Architecture**: Built an asynchronous **FastAPI** backend powering live quantization and search across real HDF5 embeddings, coupled with an interactive **Gradio Space** on Hugging Face and a **Vercel** web application.
+- **3D Structural Inspection**: Integrated real-time **Mol\*** protein 3D structure rendering to visualize structural alignment, residue-level pLDDT confidence scores, and outlier amino acid clusters directly alongside compressed vector metrics.
+- **Interactive Benchmarks**: Exposes live queries across SCOPe and Swiss-Prot databases, enabling researchers to interactively inspect quantization distortion, multi-radix byte budgets, and nearest-neighbor rankings in real time.

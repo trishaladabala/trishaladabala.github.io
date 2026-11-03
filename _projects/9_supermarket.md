@@ -2,7 +2,7 @@
 layout: page
 title: Supermarket POS & Inventory Management System
 description: Modular desktop retail automation system using JavaFX, MySQL, JDBC, and test-driven development with JUnit and Mockito.
-importance: 4
+importance: 3
 category: software engineering & systems
 related_publications: false
 ---
