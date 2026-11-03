@@ -106,7 +106,7 @@
   ],
   "projects": [
     {
-      "name": "Continuous Language Flows & Sampler Control Geometry (ACL 2027)",
+      "name": "Continuous Language Flows & Sampler Control Geometry",
       "description": "Investigating sampler control geometry and operating-point non-equivalence in continuous-latent flow language models.",
       "highlights": [
         "Proved operating-point non-equivalence of classifier-free guidance (SC-CFG) and stochastic temperature (gamma) across 280 factorial runs on ELF-B/M/L and MDLM; identical (Gen-PPL, H_ps, NFE) triplets produce fundamentally divergent text.",

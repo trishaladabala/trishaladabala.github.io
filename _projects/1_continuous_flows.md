@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Operating-Point Non-Equivalence in Continuous Language Flows (ACL 2027)"
+title: "Operating-Point Non-Equivalence in Continuous Language Flows"
 description: "Same Perplexity, Same Entropy, Different Text: Investigating whether standard (Gen-PPL, H_ps, NFE) operating points uniquely determine continuous flow generation across 280 factorial runs."
 permalink: /projects/continuous-flows/
 importance: 1
@@ -8,10 +8,10 @@ category: research
 related_publications: false
 ---
 
-### Publication Context
+### Research Overview
 
-- **Paper Title**: *Same Perplexity, Same Entropy, Different Text: Operating-Point Non-Equivalence of Sampler Controls in a Continuous-Latent Flow Language Model*
-- **Target Venue**: **ACL 2027 Main Conference** (ACL Rolling Review / ARR Submission)
+- **Project Title**: *Same Perplexity, Same Entropy, Different Text: Operating-Point Non-Equivalence of Sampler Controls in a Continuous-Latent Flow Language Model*
+- **Focus**: Empirical and theoretical analysis of sampler control geometry in continuous flow matching versus discrete diffusion.
 - **Model Architectures Evaluated**: Pretrained **Embedded Language Flow (ELF)** family (**ELF-B 105M**, **ELF-M 342M**, **ELF-L 652M**) alongside discrete **Masked Diffusion Language Models (MDLM 170M)** and autoregressive anchors (**GPT-2 Large**).
 - **Scale**: 280 raw experiment run directories, including a balanced $4 \times 7 \times 2$ factorial grid on ELF-B, targeted intermediate-$\gamma$ evaluations, and multi-seed factorials on ELF-M.
 
@@ -91,4 +91,4 @@ To isolate the individual contributions of each control knob, we performed desig
 - **Claim-to-Artifact Traceability**: 67 verified claims mapped in `RESULT_MAP.csv` across 280 raw experiment run directories in `run_manifest.json`.
 - **Double-Blind Human Evaluation Protocol**: Executed with blinded pair exports and exact binomial / McNemar statistical tests.
 - **Statistical Testing**: Two-way ANOVA, Satterthwaite Welch $t$-tests with Holm–Bonferroni correction, and Two One-Sided Tests (TOST) equivalence margins.
-- **Artifacts**: 8-page main body camera-ready LaTeX manuscript (`main.tex`, `acl.sty`, `references.bib`, compiled to `main.pdf`) targeting ACL 2027 Main Conference.
+- **Artifacts**: Comprehensive research manuscript (`main.tex`, `references.bib`, compiled to `main.pdf`), paired evaluation ledgers, and deterministic replication pipelines.

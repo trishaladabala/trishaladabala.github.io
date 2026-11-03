@@ -9,7 +9,7 @@ display_categories: [internship projects, software engineering & systems]
 horizontal: false
 ---
 
-> Looking for academic research case studies? Visit the dedicated **[Research](/research/)** section to explore **[Continuous Language Flows (ACL 2027)](/projects/continuous-flows/)**, **[AbDev-X (Antibody Developability)](/projects/abdevx/)**, **[QuantPPI (Protein Vector Quantization)](/projects/quantppi/)**, and **[VectorWing (Connectomics)](/projects/connectomics/)**.
+> Looking for academic research case studies? Visit the dedicated **[Research](/research/)** section to explore **[Continuous Language Flows](/projects/continuous-flows/)**, **[AbDev-X (Antibody Developability)](/projects/abdevx/)**, **[QuantPPI (Protein Vector Quantization)](/projects/quantppi/)**, and **[VectorWing (Connectomics)](/projects/connectomics/)**.
 
 ---
 
